@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils"
 
 const leadership = [
   {
-    name: "Michael Asante",
+    name: "Christian Tetteh ",
     role: "Founder & CEO",
     image: "/images/team-ceo.jpg",
     bio: "A visionary entrepreneur with over 10 years of experience in business development and innovation ecosystems across Africa. Michael founded Entreva Hub to bridge the gap between entrepreneurial talent and economic opportunity.",
