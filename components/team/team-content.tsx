@@ -12,7 +12,7 @@ const leadership = [
     role: "Founder & CEO",
     image: "/images/team-ceo.jpg",
     bio: "A visionary entrepreneur with over 10 years of experience in business development and innovation ecosystems across Africa. Michael founded Entreva Hub to bridge the gap between entrepreneurial talent and economic opportunity.",
-    linkedin: "https://linkedin.com",
+    linkedin: "https://www.linkedin.com/in/christian-tetteh-agbasi-19b06744/",
   },
   {
     name: "Abena Owusu",
