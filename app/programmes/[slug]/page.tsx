@@ -5,6 +5,10 @@ import { Footer } from "@/components/footer"
 import { ProgrammeDetail } from "@/components/programmes/programme-detail"
 import { programmes } from "@/lib/programmes-data"
 
+export async function generateStaticParams() {
+  return programmes.map((p) => ({ slug: p.slug }))
+}
+
 export async function generateMetadata({
   params,
 }: {
