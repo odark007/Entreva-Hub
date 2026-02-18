@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 import {
   Linkedin,
   Facebook,
@@ -54,17 +55,14 @@ export function Footer() {
           {/* About Column */}
           <div className="lg:col-span-2">
             <div className="flex items-center gap-2">
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-entreva-green">
-                <span className="text-base font-bold text-entreva-charcoal">E</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-base font-bold tracking-tight text-background">
-                  ENTREVA
-                </span>
-                <span className="text-[9px] font-mono uppercase tracking-[0.2em] text-entreva-green">
-                  Hub
-                </span>
-              </div>
+              <Image
+                src="/entreva-hub-logo-2-2.png"
+                alt="Entreva Hub"
+                width={160}
+                height={40}
+                priority
+                className="h-9 w-auto"
+              />
             </div>
             <p className="mt-4 max-w-md text-sm leading-relaxed text-background/60">
               Entreva Hub is an entrepreneurship and innovation hub dedicated to
@@ -73,7 +71,7 @@ export function Footer() {
               Africa.
             </p>
             <p className="mt-4 text-xs font-mono uppercase tracking-wider text-entreva-green">
-              Fueling Innovation. Building Entrepreneurs. Creating Jobs.
+              Developing Skills. Building Entrepreneurs. Creating Jobs.
             </p>
           </div>
 
@@ -155,7 +153,14 @@ export function Footer() {
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 px-6 py-6 text-xs text-background/40 md:flex-row lg:px-8">
           <p>{"© 2025 Entreva Hub. All Rights Reserved."}</p>
           <p>
-            Danneskiold-Samsoes Alle 41, 1434 Copenhagen, Denmark
+            <a
+              href="https://saharansub.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-background/60 hover:text-entreva-green transition-colors"
+            >
+              Design by Saharansub
+            </a>
           </p>
         </div>
       </div>

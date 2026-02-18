@@ -47,9 +47,9 @@ const joinPaths = [
   },
   {
     icon: Building2,
-    title: "Volunteer / Intern",
+    title: "Job seeker",
     description:
-      "Gain hands-on experience while contributing to Africa's entrepreneurship ecosystem.",
+      "Gain practical measurable skills through our employability training program and job search coaching.",
     cta: "Get Involved",
     href: "#contact",
   },
@@ -58,7 +58,7 @@ const joinPaths = [
 const benefits = [
   "Access to world-class training and business development support",
   "Expert mentorship and business coaching",
-  "Working capital funding opportunities (up to GHS 20,000)",
+  "Funding opportunities",
   "Market access through exhibitions and trade shows",
   "A community of like-minded entrepreneurs and innovators",
   "Networking with industry leaders and partners",
@@ -266,7 +266,7 @@ export function JoinContent() {
                   <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-entreva-green/10 text-entreva-green">
                     <MapPin className="h-5 w-5" />
                   </div>
-                  Danneskiold-Samsoes Alle 41, 1434 Copenhagen, Denmark
+                  No. 9 Goa Street, TDC Estates, Community 25, Tema, Ghana.
                 </div>
               </div>
             </div>
@@ -360,7 +360,7 @@ export function JoinContent() {
                         <option value="entrepreneur">Entrepreneur / Startup</option>
                         <option value="partner">Partner / Sponsor</option>
                         <option value="mentor">Mentor / Coach</option>
-                        <option value="volunteer">Volunteer / Intern</option>
+                        <option value="job-seeker">Job seeker</option>
                         <option value="other">Other</option>
                       </select>
                     </div>

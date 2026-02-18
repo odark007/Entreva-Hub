@@ -16,9 +16,9 @@ import { useCountUp } from "@/hooks/use-count-up"
 import { cn } from "@/lib/utils"
 
 const impactMetrics = [
-  { value: 500, suffix: "+", label: "MSMEs Targeted", icon: Briefcase },
-  { value: 20, suffix: "K", label: "GHS Funding Per Business", icon: TrendingUp },
-  { value: 3, suffix: "", label: "Focus Regions", icon: MapPin },
+  { value: 500, suffix: "+", label: "MSMEs Targeted in 5 years", icon: Briefcase },
+  { value: 3000, suffix: "+", label: "GHS Funding Per Business", icon: TrendingUp },
+  { value: 4, suffix: "", label: "Focus Regions", icon: MapPin },
   { value: 5, suffix: " Years", label: "Programme Span", icon: Building2 },
   { value: 100, suffix: "M", label: "African Youth At Risk", icon: Users },
   { value: 50, suffix: "%", label: "Underemployment Rate", icon: GraduationCap },
@@ -33,7 +33,7 @@ const impactStories = [
   {
     title: "Bridging the Skills Gap",
     description:
-      "Creating employment for young people through practical skills training and workforce development programmes.",
+      "Creating employment for young people through practical skills training and employability development programmes.",
   },
   {
     title: "Strengthening Ecosystems",
@@ -43,11 +43,15 @@ const impactStories = [
   {
     title: "Community Impact",
     description:
-      "Developing stories of impact in the lives of people and communities across Ghana through sustainable enterprise.",
+      "Developing stories of impact in the lives of people and communities across Ghana through sustainable enterprise and job creation.",
   },
 ]
 
 const focusRegions = [
+    {
+    name: "Greater Accra",
+    description: "Supporting urban and entrepreneurs in the capital city.",
+  },
   {
     name: "Northern Region",
     description: "Supporting agricultural and enterprise development in Northern Ghana.",
@@ -193,6 +197,9 @@ export function ImpactContent() {
             <h2 className="mt-2 text-3xl font-bold tracking-tight text-foreground md:text-4xl">
               Focus Regions
             </h2>
+            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+              Though we work across all the 16 regions of Ghana, we are more focused on 4 regions to enable us create sustainable impact
+            </p>
           </div>
           <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
             {focusRegions.map((region, idx) => (

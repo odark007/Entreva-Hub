@@ -46,7 +46,7 @@ export function Hero() {
         >
           <span className="inline-flex items-center gap-2 rounded-full border border-entreva-green/30 bg-entreva-green/10 px-4 py-1.5 text-xs font-mono uppercase tracking-wider text-entreva-green">
             <span className="h-1.5 w-1.5 rounded-full bg-entreva-green animate-pulse" />
-            Fueling Innovation in Ghana & Africa
+            Building Entrepreneurs. Developing Skills. Creating Jobs
           </span>
         </div>
 
@@ -106,8 +106,8 @@ export function Hero() {
         >
           {[
             { value: "500+", label: "MSMEs Targeted" },
-            { value: "3", label: "Focus Regions" },
-            { value: "GHS 20K", label: "Funding per Business" },
+            { value: "4", label: "Focus Regions" },
+            { value: "GHS 3,000+", label: "Jobs to be created" },
             { value: "5 Yr", label: "Programme Span" },
           ].map((stat) => (
             <div

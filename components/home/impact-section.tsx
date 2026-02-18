@@ -10,7 +10,7 @@ const metrics = [
   {
     value: 500,
     suffix: "+",
-    label: "MSMEs to be Supported",
+    label: "MSMEs targeted in 5 years",
     description: "Over a 5-year programme span",
     icon: Briefcase,
   },
@@ -29,10 +29,10 @@ const metrics = [
     icon: GraduationCap,
   },
   {
-    value: 3,
+    value: 4,
     suffix: "",
     label: "Focus Regions",
-    description: "Northern, Upper East, Savannah",
+    description: "Greater Accra, Eastern, Volta, Oti",
     icon: MapPin,
   },
 ]

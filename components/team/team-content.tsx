@@ -90,7 +90,7 @@ export function TeamContent() {
               The people building the future of work in Africa
             </h1>
             <p className="mt-6 text-lg leading-relaxed text-background/60">
-              A passionate team of entrepreneurs, operators, and change-makers
+              A passionate team of entrepreneurs, innovators, and change-makers
               dedicated to creating meaningful employment and economic
               opportunity across Ghana.
             </p>

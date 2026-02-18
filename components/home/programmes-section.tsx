@@ -9,12 +9,12 @@ import { cn } from "@/lib/utils"
 const programmes = [
   {
     slug: "mtn-sme-support",
-    title: "MTN SME Support Programme",
+    title: "AgriStarter Programme",
     description:
-      "Unlock the full potential of your SME with world-class business training, mentorship, and funding of up to GHS 20,000.",
+      "unlock your potential and improve your livelihood by training, mentoring, coaching and funding of GHS 20,000 to launch your agribusiness idea.",
     image: "/images/programme-mtn.jpg",
-    status: "Open" as const,
-    partner: "MTN Ghana",
+    status: "Coming Soon" as const,
+    partner: "Entreva Hub",
   },
   {
     slug: "agribusiness-accelerator",

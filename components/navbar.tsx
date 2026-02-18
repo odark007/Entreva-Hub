@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { Menu, X, Phone, MessageCircle } from "lucide-react"
 import { cn } from "@/lib/utils"
@@ -42,17 +43,14 @@ export function Navbar() {
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-entreva-green transition-transform group-hover:scale-105">
-            <span className="text-lg font-bold text-entreva-charcoal">E</span>
-          </div>
-          <div className="flex flex-col">
-            <span className="text-lg font-bold tracking-tight text-background">
-              ENTREVA
-            </span>
-            <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-entreva-green">
-              Hub
-            </span>
-          </div>
+          <Image
+            src="/entreva-hub-logo-2-2.png"
+            alt="Entreva Hub"
+            width={160}
+            height={40}
+            priority
+            className="h-10 w-auto"
+          />
         </Link>
 
         {/* Desktop Navigation */}

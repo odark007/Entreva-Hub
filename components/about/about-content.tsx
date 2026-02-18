@@ -133,6 +133,67 @@ export function AboutContent() {
         </div>
       </section>
 
+      {/* Focus Areas */}
+      <section className="bg-background py-24 lg:py-32" ref={focusAnim.ref}>
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div
+            className={cn(
+              "transition-all duration-700",
+              focusAnim.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            )}
+          >
+            <span className="text-xs font-mono uppercase tracking-wider text-entreva-green">
+              Our Focus
+            </span>
+            <h2 className="mt-2 text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+              Areas of Impact
+            </h2>
+            <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground">
+              We focus on creating opportunities in sectors with the highest
+              potential for employment for women and youth in Ghana.
+            </p>
+          </div>
+          <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
+            {focusAreas.map((area, idx) => {
+              const Icon = area.icon
+              return (
+                <div
+                  key={area.title}
+                  className={cn(
+                    "group rounded-2xl border border-border bg-card p-8 transition-all duration-500 hover:border-entreva-green/30",
+                    focusAnim.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                  )}
+                  style={{
+                    transitionDelay: focusAnim.isVisible ? `${(idx + 1) * 150}ms` : "0ms",
+                  }}
+                >
+                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-entreva-green/10 text-entreva-green">
+                    <Icon className="h-6 w-6" />
+                  </div>
+                  <h3 className="mt-6 text-xl font-semibold text-foreground">
+                    {area.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                    {area.description}
+                  </p>
+                </div>
+              )
+            })}
+          </div>
+
+          {/* CTA */}
+          <div className="mt-16 text-center">
+            <Link
+              href="/programmes"
+              className="group inline-flex items-center gap-2 rounded-lg bg-entreva-green px-8 py-4 font-semibold text-entreva-charcoal transition-all hover:bg-entreva-green/90"
+            >
+              Explore Our Programmes
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Values */}
       <section className="bg-card py-24 lg:py-32" ref={valuesAnim.ref}>
         <div className="mx-auto max-w-7xl px-6 lg:px-8">

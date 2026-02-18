@@ -22,15 +22,15 @@ export interface Programme {
 
 export const programmes: Programme[] = [
   {
-    slug: "mtn-sme-support",
-    title: "MTN SME Support Programme",
-    partner: "MTN Ghana & Entreva Hub",
-    status: "Open",
+    slug: "agristarter-sme-support",
+    title: "AgriStarter Programme",
+    partner: "Entreva Hub",
+    status: "Coming Soon",
     image: "/images/programme-mtn.jpg",
     shortDescription:
       "Unlock the full potential of your SME with world-class business training, mentorship, and funding of up to GHS 20,000.",
     overview:
-      "MTN Ghana, in partnership with Entreva Hub, is implementing the MTN Foundation Economic Empowerment Program. As a legacy project marking MTN Ghana's 25th Anniversary, this initiative is designed to catalyze transformation by unlocking growth opportunities and expediting youth entrepreneurship.",
+      "unlock your potential and improve your livelihood by training, mentoring, coaching and funding of GHS 20,000 to launch your agribusiness idea.",
     about:
       "Over a 5-year span, the program aims to support over 500 Micro, Small, and Medium Enterprises (MSMEs) across Ghana. Participants will benefit from tailored business development services and gain access to credit facilities, with each business eligible for at least GHS 10,000.",
     qualifications: [
@@ -64,7 +64,7 @@ export const programmes: Programme[] = [
     benefits: [
       "World-class training and business development support",
       "Access to experienced business coaches and mentors",
-      "Working Capital Funding (up to GHS 20,000.00 per business)",
+      "Funding opportunities",
       "Access to market (Exhibitions and tradeshows)",
     ],
     regions: ["Northern Region", "Upper East", "Savannah Region"],
