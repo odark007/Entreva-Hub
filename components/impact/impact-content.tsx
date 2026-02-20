@@ -17,7 +17,7 @@ import { cn } from "@/lib/utils"
 
 const impactMetrics = [
   { value: 500, suffix: "+", label: "MSMEs Targeted in 5 years", icon: Briefcase },
-  { value: 3000, suffix: "+", label: "GHS Funding Per Business", icon: TrendingUp },
+  { value: 3000, suffix: "+", label: "Jobs to be created", icon: TrendingUp },
   { value: 4, suffix: "", label: "Focus Regions", icon: MapPin },
   { value: 5, suffix: " Years", label: "Programme Span", icon: Building2 },
   { value: 100, suffix: "M", label: "African Youth At Risk", icon: Users },

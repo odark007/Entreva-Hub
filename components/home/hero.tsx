@@ -44,10 +44,10 @@ export function Hero() {
             loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >
-          <span className="inline-flex items-center gap-2 rounded-full border border-entreva-green/30 bg-entreva-green/10 px-4 py-1.5 text-xs font-mono uppercase tracking-wider text-entreva-green">
+            {/* <span className="inline-flex items-center gap-2 rounded-full border border-entreva-green/30 bg-entreva-green/10 px-4 py-1.5 text-xs font-mono uppercase tracking-wider text-entreva-green">
             <span className="h-1.5 w-1.5 rounded-full bg-entreva-green animate-pulse" />
             Building Entrepreneurs. Developing Skills. Creating Jobs
-          </span>
+            </span> */}
         </div>
 
         {/* Heading */}
@@ -62,6 +62,9 @@ export function Hero() {
             <br className="hidden sm:block" />
             Creating{" "}
             <span className="text-entreva-blue">Jobs</span>.
+            <br className="hidden sm:block" />
+            Developing{" "}
+            <span className="text-entreva-red">Skills</span>.
           </span>
         </h1>
 
@@ -107,7 +110,7 @@ export function Hero() {
           {[
             { value: "500+", label: "MSMEs Targeted" },
             { value: "4", label: "Focus Regions" },
-            { value: "GHS 3,000+", label: "Jobs to be created" },
+            { value: "3,000+", label: "Jobs to be created" },
             { value: "5 Yr", label: "Programme Span" },
           ].map((stat) => (
             <div
