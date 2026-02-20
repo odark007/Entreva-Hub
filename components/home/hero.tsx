@@ -60,11 +60,12 @@ export function Hero() {
             Building{" "}
             <span className="text-entreva-green">Entrepreneurs</span>.{" "}
             <br className="hidden sm:block" />
-            Creating{" "}
-            <span className="text-entreva-blue">Jobs</span>.
-            <br className="hidden sm:block" />
             Developing{" "}
-            <span className="text-entreva-red">Skills</span>.
+            <span className="text-entreva-blue">Skills</span>.{" "}
+            <br className="hidden sm:block" />
+            <br className="block sm:hidden" />
+            Creating{" "}
+            <span className="text-entreva-red">Jobs</span>.
           </span>
         </h1>
 
