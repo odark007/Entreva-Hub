@@ -11,11 +11,11 @@ const spaceMono = Space_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "Entreva Hub | Fueling Innovation. Building Entrepreneurs. Creating Jobs.",
+  title: "Entreva Hub | Building Entrepreneurs. Creating Jobs.",
   description:
     "Entreva Hub is an entrepreneurship and innovation hub dedicated to empowering individuals, startups, and businesses to create sustainable solutions and meaningful employment in Ghana and Africa.",
   openGraph: {
-    title: "Entreva Hub | Fueling Innovation. Building Entrepreneurs. Creating Jobs.",
+    title: "Entreva Hub | Building Entrepreneurs. Creating Jobs.",
     description:
       "Empowering individuals, startups, and businesses to create sustainable solutions and meaningful employment in Ghana and Africa.",
     type: "website",
