@@ -2,7 +2,8 @@
 
 import React from "react"
 
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
+import emailjs from "@emailjs/browser"
 import Link from "next/link"
 import {
   ArrowRight,
@@ -69,14 +70,42 @@ export function JoinContent() {
   const pathsAnim = useAnimateOnScroll()
   const benefitsAnim = useAnimateOnScroll()
   const contactAnim = useAnimateOnScroll()
-  const [formState, setFormState] = useState<"idle" | "submitting" | "submitted">("idle")
+  const formRef = useRef<HTMLFormElement>(null)
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">(
+    "idle"
+  )
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  useEffect(() => {
+    if (process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY) {
+      emailjs.init(process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY)
+    }
+  }, [])
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setFormState("submitting")
-    setTimeout(() => {
-      setFormState("submitted")
-    }, 1500)
+    setStatus("loading")
+
+    const formData = new FormData(e.currentTarget)
+    const params = {
+      first_name: formData.get("firstName") as string,
+      last_name: formData.get("lastName") as string,
+      email: formData.get("email") as string,
+      interest: formData.get("interest") as string,
+      message: formData.get("message") as string,
+    }
+
+    try {
+      await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        params
+      )
+      setStatus("success")
+      formRef.current?.reset()
+    } catch (error) {
+      console.error("EmailJS Error:", error)
+      setStatus("error")
+    }
   }
 
   return (
@@ -278,7 +307,7 @@ export function JoinContent() {
                 contactAnim.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               )}
             >
-              {formState === "submitted" ? (
+              {status === "success" ? (
                 <div className="flex h-full flex-col items-center justify-center rounded-2xl border border-entreva-green/20 bg-entreva-green/5 p-12 text-center">
                   <CheckCircle2 className="h-16 w-16 text-entreva-green" />
                   <h3 className="mt-6 text-2xl font-bold text-foreground">Thank you!</h3>
@@ -286,9 +315,16 @@ export function JoinContent() {
                     We have received your message and will get back to you
                     within 48 hours.
                   </p>
+                  <Button
+                    onClick={() => setStatus("idle")}
+                    className="mt-8 bg-entreva-green text-entreva-charcoal hover:bg-entreva-green/90"
+                  >
+                    Send another message
+                  </Button>
                 </div>
               ) : (
                 <form
+                  ref={formRef}
                   onSubmit={handleSubmit}
                   className="rounded-2xl border border-border bg-card p-8"
                 >
@@ -381,10 +417,10 @@ export function JoinContent() {
                     </div>
                     <Button
                       type="submit"
-                      disabled={formState === "submitting"}
+                      disabled={status === "loading"}
                       className="w-full bg-entreva-green py-6 text-sm font-semibold text-entreva-charcoal hover:bg-entreva-green/90 disabled:opacity-60"
                     >
-                      {formState === "submitting" ? (
+                      {status === "loading" ? (
                         <span className="flex items-center gap-2">
                           <span className="h-4 w-4 animate-spin rounded-full border-2 border-entreva-charcoal/30 border-t-entreva-charcoal" />
                           Sending...
@@ -396,6 +432,11 @@ export function JoinContent() {
                         </span>
                       )}
                     </Button>
+                    {status === "error" && (
+                      <p className="mt-4 text-center text-sm font-medium text-destructive">
+                        Something went wrong. Please try again.
+                      </p>
+                    )}
                   </div>
                 </form>
               )}
