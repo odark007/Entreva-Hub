@@ -39,7 +39,7 @@ export default function RootLayout({
       className={`${inter.variable} ${spaceMono.variable}`}
       suppressHydrationWarning
     >
-      <body className="font-sans antialiased">{children}</body>
+      <body className="font-sans antialiased" suppressHydrationWarning>{children}</body>
     </html>
   )
 }
