@@ -139,6 +139,7 @@ export function Footer() {
                   rel="noopener noreferrer"
                   className="flex h-9 w-9 items-center justify-center rounded-md bg-background/5 text-background/40 transition-all hover:bg-entreva-green hover:text-entreva-charcoal"
                   aria-label={social.label}
+                  suppressHydrationWarning
                 >
                   <social.icon className="h-4 w-4" />
                 </a>
