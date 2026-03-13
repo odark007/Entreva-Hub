@@ -20,8 +20,8 @@ const quickLinks = [
 ]
 
 const socialLinks = [
-  { href: "https://linkedin.com", icon: Linkedin, label: "LinkedIn" },
-  { href: "https://facebook.com", icon: Facebook, label: "Facebook" },
+  { href: "https://www.linkedin.com/company/entreva-hub-job-creation/posts/?feedView=all", icon: Linkedin, label: "LinkedIn" },
+  { href: "https://www.facebook.com/share/17qMW7DHjZ/", icon: Facebook, label: "Facebook" },
   { href: "https://instagram.com", icon: Instagram, label: "Instagram" },
 ]
 
