@@ -304,6 +304,15 @@ export function JoinContent() {
                   </div>
                   No. 9 Goa Street, TDC Estates, Community 25, Tema, Ghana.
                 </div>
+                <a
+                  href="https://maps.app.goo.gl/71WBNoLVV5nkEnxH8"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="ml-14 inline-flex w-fit items-center gap-2 text-sm font-medium text-entreva-green transition-colors hover:text-entreva-green/80"
+                >
+                  Click here for Google map directions
+                  <ArrowRight className="h-4 w-4" />
+                </a>
               </div>
             </div>
 
@@ -448,6 +457,21 @@ export function JoinContent() {
                 </form>
               )}
             </div>
+          </div>
+
+          <div
+            className={cn(
+              "mt-12 overflow-hidden rounded-2xl border border-border bg-card transition-all duration-700 delay-300",
+              contactAnim.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            )}
+          >
+            <iframe
+              title="Entreva Hub Google map directions"
+              src="https://www.google.com/maps?q=No.%209%20Goa%20Street%2C%20TDC%20Estates%2C%20Community%2025%2C%20Tema%2C%20Ghana&output=embed"
+              className="h-72 w-full md:h-96"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
           </div>
         </div>
       </section>

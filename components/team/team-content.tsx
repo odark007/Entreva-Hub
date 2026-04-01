@@ -8,38 +8,32 @@ import { cn } from "@/lib/utils"
 
 const leadership = [
   {
-    name: "Christian Tetteh ",
-    role: "Founder & CEO",
-    image: "/images/team-ceo.jpg",
-    bio: "A visionary entrepreneur with over 10 years of experience in business development and innovation ecosystems across Africa. Michael founded Entreva Hub to bridge the gap between entrepreneurial talent and economic opportunity.",
+    name: "Christian Tetteh Agbasi",
+    role: "Co-Founder & Executive Director",
+    image: "/images/Co-Founder-Executive-Director-square_2.jpg",
+    bio: "Christian Tetteh Agbasi is the Co-Founder and Executive Director for Entreva Hub. He is a leadership development/capacity building specialist, and entrepreneur. He has undertaken training and consulting projects in Ghana, Kenya, Nigeria, and Ivory Coast for startups, small, medium and global multinationals both in the public and private sector. He founded Oakleaf Training and Consulting in 2013 and has worked as Soft Skills Trainer, Learning and Development Manager, Capacity Building Consultant for a number of international organizations in Ghana. He is an Associate of Hemsley Fraser – a global training company in the UK. He has passion for youth development, skills development and job creation and is constantly thinking of systems and models to expand job opportunities for women and youth. Christian works on a number youth development projects including having trained 15,000+ Ghanaian youth in Digital Skills on the Google Digital Skills for Africa program. He also trained 100+ young women in tech for an employability program sponsored by GIZ. He holds MBA from SMU, India and BA Psychology and Information Studies from University of Ghana. He also has a certificate in Training & Development Management from University of Cape Town, South Africa and a Certified Trainer/Facilitator from Len Stevens Training, South Africa.",
     linkedin: "https://www.linkedin.com/in/christian-tetteh-agbasi-19b06744/",
-  },
-  {
-    name: "Abena Owusu",
-    role: "Chief Operating Officer",
-    image: "/images/team-coo.jpg",
-    bio: "Abena brings expertise in programme management and operations, having led entrepreneurship initiatives across West Africa. She ensures Entreva Hub delivers impactful programmes at scale.",
-    linkedin: "https://linkedin.com",
-  },
+  }
 ]
 
 const team = [
   {
-    name: "Kwame Mensah",
-    role: "Head of Programmes",
-    image: "/images/team-programs.jpg",
-    bio: "Kwame designs and manages programme curricula, ensuring entrepreneurs receive world-class training and mentorship.",
+    name: "Enoch Yirenkyi",
+    role: "Project Officer – Agri",
+    image: "/images/enoch-yirenkyi-enoch_square.jpg",
+    bio: "Enoch is the Project Officer – Agri at Entreva Hub. He is an agricultural professional focused on sustainable agriculture and empowerment, with experience supporting youth-centered initiatives, value addition, and agribusiness development. He is committed to designing innovative programs that ensures steady growth of Entreva Hub. He holds a BSc in Agriculture.",
     linkedin: "https://linkedin.com",
   },
   {
-    name: "Esi Boateng",
-    role: "Communications Lead",
-    image: "/images/team-comms.jpg",
-    bio: "Esi drives brand storytelling and community engagement, amplifying the stories of impact across Entreva's ecosystem.",
-    linkedin: "https://linkedin.com",
+    name: "Godwin France",
+    role: "Project Officer – Tech",
+    image: "/images/Godwin-France.jpeg",
+    bio: "Godwin France is Project Officer – Tech at Entreva Hub. He is a technologist and STEAM advocate with extensive experience in using technology for education, entrepreneurship, and workforce development. Over the years, he has trained young people, entrepreneurs, and professionals across a number of African countries, equipping them with practical digital skills and guiding them through emerging trends in technology. With a strong background in IT systems, digital tools, and innovation-driven learning, he brings both strategic insight and hands-on expertise to every initiative. At Entreva Hub, he leads all technology and IT-related training and projects, supporting entrepreneurs and job seekers with the technical competencies needed to thrive in today’s digital economy. Holds a BSc. in Telecommunication Engineering. ",
+    linkedin: "https://www.linkedin.com/in/godwin-france/",
   },
 ]
 
+/*
 const advisors = [
   {
     name: "Dr. Nana Adjei",
@@ -57,12 +51,13 @@ const advisors = [
     organization: "Meltwater Entrepreneurial School of Technology",
   },
 ]
+*/
 
 export function TeamContent() {
   const heroAnim = useAnimateOnScroll()
   const leadershipAnim = useAnimateOnScroll()
   const teamAnim = useAnimateOnScroll()
-  const advisorsAnim = useAnimateOnScroll()
+  // const advisorsAnim = useAnimateOnScroll()
   const ctaAnim = useAnimateOnScroll()
 
   return (
@@ -219,7 +214,7 @@ export function TeamContent() {
         </div>
       </section>
 
-      {/* Advisors */}
+      {/*
       <section className="bg-entreva-charcoal py-24 lg:py-32" ref={advisorsAnim.ref}>
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div
@@ -262,6 +257,7 @@ export function TeamContent() {
           </div>
         </div>
       </section>
+      */}
 
       {/* Join CTA */}
       <section className="bg-background py-24 lg:py-32" ref={ctaAnim.ref}>

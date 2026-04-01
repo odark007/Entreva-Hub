@@ -7,6 +7,7 @@ import {
   Phone,
   Mail,
   MessageCircle,
+  MapPin,
   ArrowUpRight,
 } from "lucide-react"
 
@@ -127,6 +128,17 @@ export function Footer() {
                 >
                   <Mail className="h-4 w-4 shrink-0" />
                   info@entrevahub.com
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://maps.app.goo.gl/71WBNoLVV5nkEnxH8"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 text-sm text-background/60 transition-colors hover:text-entreva-green"
+                >
+                  <MapPin className="h-4 w-4 shrink-0" />
+                  Click here for Google map directions
                 </a>
               </li>
             </ul>
