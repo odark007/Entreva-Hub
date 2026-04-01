@@ -10,7 +10,7 @@ const leadership = [
   {
     name: "Christian Tetteh Agbasi",
     role: "Co-Founder & Executive Director",
-    image: "/images/Co-Founder-Executive-Director-square_2.jpg",
+    image: "/images/Co-Founder-Executive-Director-square_3.jpg",
     bio: "Christian Tetteh Agbasi is the Co-Founder and Executive Director for Entreva Hub. He is a leadership development/capacity building specialist, and entrepreneur. He has undertaken training and consulting projects in Ghana, Kenya, Nigeria, and Ivory Coast for startups, small, medium and global multinationals both in the public and private sector. He founded Oakleaf Training and Consulting in 2013 and has worked as Soft Skills Trainer, Learning and Development Manager, Capacity Building Consultant for a number of international organizations in Ghana. He is an Associate of Hemsley Fraser – a global training company in the UK. He has passion for youth development, skills development and job creation and is constantly thinking of systems and models to expand job opportunities for women and youth. Christian works on a number youth development projects including having trained 15,000+ Ghanaian youth in Digital Skills on the Google Digital Skills for Africa program. He also trained 100+ young women in tech for an employability program sponsored by GIZ. He holds MBA from SMU, India and BA Psychology and Information Studies from University of Ghana. He also has a certificate in Training & Development Management from University of Cape Town, South Africa and a Certified Trainer/Facilitator from Len Stevens Training, South Africa.",
     linkedin: "https://www.linkedin.com/in/christian-tetteh-agbasi-19b06744/",
   }
