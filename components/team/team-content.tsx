@@ -22,7 +22,7 @@ const team = [
     role: "Project Officer – Agri",
     image: "/images/enoch-yirenkyi-enoch_square.jpg",
     bio: "Enoch is the Project Officer – Agri at Entreva Hub. He is an agricultural professional focused on sustainable agriculture and empowerment, with experience supporting youth-centered initiatives, value addition, and agribusiness development. He is committed to designing innovative programs that ensures steady growth of Entreva Hub. He holds a BSc in Agriculture.",
-    linkedin: "https://linkedin.com",
+    linkedin: "https://www.linkedin.com/in/enoch-asiedu-yirenkyi-a756361b6/",
   },
   {
     name: "Godwin France",
