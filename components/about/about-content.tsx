@@ -116,8 +116,8 @@ export function AboutContent() {
                 Our Mission
               </span>
               <p className="mt-4 text-lg leading-relaxed text-foreground">
-                To create jobs through research, innovation, skills development,
-                employability training and entrepreneurship development.
+                To create jobs for Ghanaian youth and women through research and innovation, 
+                employability training and entrepreneurship development
               </p>
             </div>
             <div className="rounded-2xl border border-border bg-card p-8 lg:p-10">
