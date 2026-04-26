@@ -270,16 +270,16 @@ export function JoinContent() {
               </p>
               <div className="mt-10 flex flex-col gap-6">
                 <a
-                  href="tel:+233243521917"
+                  href="tel:+233548493880"
                   className="flex items-center gap-4 text-sm text-foreground transition-colors hover:text-entreva-green"
                 >
                   <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-entreva-green/10 text-entreva-green">
                     <Phone className="h-5 w-5" />
                   </div>
-                  +233 24 352 1917
+                  +233 54 849 3880
                 </a>
                 <a
-                  href="https://wa.me/233243521917"
+                  href="https://wa.me/233548493880"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-4 text-sm text-foreground transition-colors hover:text-entreva-green"

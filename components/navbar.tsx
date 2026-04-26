@@ -77,7 +77,7 @@ export function Navbar() {
         {/* Desktop CTA */}
         <div className="hidden items-center gap-3 lg:flex">
           <a
-            href="https://wa.me/233243521917"
+            href="https://wa.me/233548493880"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-background/70 transition-colors hover:text-entreva-green"
@@ -86,7 +86,7 @@ export function Navbar() {
             <span className="sr-only">WhatsApp</span>
           </a>
           <a
-            href="tel:+233243521917"
+            href="tel:+233548493880"
             className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-background/70 transition-colors hover:text-entreva-green"
           >
             <Phone className="h-4 w-4" />
@@ -137,7 +137,7 @@ export function Navbar() {
             </Button>
             <div className="flex items-center justify-center gap-4">
               <a
-                href="https://wa.me/233243521917"
+                href="https://wa.me/233548493880"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-sm text-background/60 hover:text-entreva-green transition-colors"
@@ -146,7 +146,7 @@ export function Navbar() {
                 WhatsApp
               </a>
               <a
-                href="tel:+233243521917"
+                href="tel:+233548493880"
                 className="flex items-center gap-2 text-sm text-background/60 hover:text-entreva-green transition-colors"
               >
                 <Phone className="h-4 w-4" />
