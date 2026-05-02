@@ -298,14 +298,27 @@ export function JoinContent() {
                   </div>
                   info@entrevahub.com
                 </a>
+                <a
+                  href="https://www.google.com/search?q=GN-0340-8096"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-4 text-sm text-foreground transition-colors hover:text-entreva-green"
+                >
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-entreva-green/10 text-entreva-green">
+                    <MapPin className="h-5 w-5" />
+                  </div>
+                  Digital Address: GN-0340-8096
+                </a>
                 <div className="flex items-center gap-4 text-sm text-foreground">
                   <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-entreva-green/10 text-entreva-green">
                     <MapPin className="h-5 w-5" />
                   </div>
-                  No. 9 Goa Street, TDC Estates, Community 25, Tema, Ghana.
+                  No. 047 Osaiokpote Street, Savanna Junction. Dawhenya
+                  
+
                 </div>
                 <a
-                  href="https://maps.app.goo.gl/71WBNoLVV5nkEnxH8"
+                  href="https://maps.app.goo.gl/twfG1dUU4FtA98fc9?g_st=ac"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="ml-14 inline-flex w-fit items-center gap-2 text-sm font-medium text-entreva-green transition-colors hover:text-entreva-green/80"
@@ -467,7 +480,7 @@ export function JoinContent() {
           >
             <iframe
               title="Entreva Hub Google map directions"
-              src="https://www.google.com/maps?q=No.%209%20Goa%20Street%2C%20TDC%20Estates%2C%20Community%2025%2C%20Tema%2C%20Ghana&output=embed"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3969.8343856005235!2d0.0527985!3d5.7369756999999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x10208184ad4939e3%3A0xe860b55735fb1e56!2sEntreva%20Hub!5e0!3m2!1sen!2sgh!4v1777728538643!5m2!1sen!2sgh"
               className="h-72 w-full md:h-96"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
