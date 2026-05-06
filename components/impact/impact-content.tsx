@@ -53,15 +53,15 @@ const focusRegions = [
     description: "Supporting urban and entrepreneurs in the capital city.",
   },
   {
-    name: "Northern Region",
-    description: "Supporting agricultural and enterprise development in Northern Ghana.",
+    name: "Volta Region",
+    description: "Supporting agricultural and enterprise development in the Volta Region of Ghana.",
   },
   {
-    name: "Upper East",
+    name: "Oti East",
     description: "Empowering communities through skills and business development.",
   },
   {
-    name: "Savannah Region",
+    name: "Eastern Region",
     description: "Creating opportunities for youth and women entrepreneurs.",
   },
 ]
