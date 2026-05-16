@@ -1,4 +1,7 @@
-export type ProgrammeStatus = "Open" | "Closed" | "Coming Soon"
+// lib/programmes-data.ts
+
+// Updated to allow the specific date string as requested
+export type ProgrammeStatus = "Open" | "Closed" | "Coming Soon" | string
 
 export interface Programme {
   slug: string
@@ -114,37 +117,46 @@ export const programmes: Programme[] = [
     category: "agribusiness",
   },
   {
-    slug: "tech-skills-bootcamp",
-    title: "Tech Skills Bootcamp",
+    slug: "future-force",
+    title: "Future Force",
     partner: "Entreva Hub",
-    status: "Coming Soon",
+    status: "Monday, 18th May to Friday 1st July",
     image: "/images/programme-tech.jpg",
-    shortDescription:
-      "Equipping young Ghanaians with in-demand digital and technology skills for the future of work.",
-    overview:
-      "The Tech Skills Bootcamp is an intensive programme designed to equip young Ghanaians with practical, in-demand technology skills.",
-    about:
-      "From coding to digital marketing, this bootcamp covers the essential skills needed to thrive in the digital economy. Participants gain hands-on experience and build portfolios that prepare them for employment or entrepreneurship.",
+    shortDescription: "A 6-week intensive bridging program for JHS and SHS students to master digital skills and entrepreneurial thinking.",
+    overview: "Future Force is designed to transform the long vacation into a period of high-impact learning. We move beyond classroom theory to give students hands-on experience with the tools that define the modern workforce.",
+    about: "The curriculum is divided into four core pillars: Digital Foundations (coding and office productivity), Creative Problem Solving, Financial Literacy, and Leadership. Students work in teams to solve real-world community challenges, culminating in a Demo Day for parents and mentors.",
     qualifications: [
       {
-        title: "Eligible Participants",
+        title: "Who Can Apply?",
         items: [
-          "Youth aged 18-35",
-          "Basic computer literacy",
-          "Passion for technology and innovation",
+          "JHS Graduates awaiting BECE results",
+          "SHS Students on vacation",
+          "SHS Graduates awaiting University admission",
+        ],
+      },
+      {
+        title: "What You Need",
+        items: [
+          "A curious mind and willingness to learn",
+          "Parental/Guardian consent for participation",
+          "A laptop (highly recommended, but limited hub PCs available)",
         ],
       },
     ],
     benefits: [
-      "Hands-on technology training",
-      "Industry mentorship",
-      "Portfolio development",
-      "Job placement support",
+      "Mastery of Google Workspace & Basic Digital Tools",
+      "Introduction to Logic, AI and Coding Fundamentals",
+      "Public Speaking and Presentation Confidence",
+      "Official Entreva Hub Certificate of Achievement",
+      "Access to a network of young innovators and mentors",
     ],
-    regions: ["Greater Accra", "Ashanti Region"],
+    regions: ["Greater Accra", "All Regions of Ghana"],
     keyDates: [
-      { label: "Programme Launch", date: "Coming Soon" },
+      { label: "Early Bird Deadline", date: "10th May, 2026" },
+      { label: "Student Orientation", date: "15th May, 2026" },
+      { label: "Core Classes Begin", date: "18th May, 2026" },
+      { label: "Graduation & Demo Day", date: "1st July, 2026" },
     ],
-    category: "tech",
+    category: "skills",
   },
 ]
