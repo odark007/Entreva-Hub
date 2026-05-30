@@ -125,8 +125,7 @@ export function AboutContent() {
                 Our Vision
               </span>
               <p className="mt-4 text-lg leading-relaxed text-foreground">
-                To be a catalyst for job creation in Ghana and Africa through
-                partnerships that unlock growth and transform communities.
+                Thriving communities across Ghana, transformed by abundant job creation and sustained economic growth.
               </p>
             </div>
           </div>
