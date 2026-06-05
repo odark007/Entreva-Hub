@@ -171,11 +171,11 @@ export const programmes: Programme[] = [
       },
       {
         title: "Pillar 3: Growth & Money",
-        items: ["Creativity and Problem Solving", "Entrepreneurial Skills", "Financial Literacy"]
+        items: ["Creativity and Problem Solving", "Entrepreneurial Skills", "Financial Literacy", "Making Friends Strategically", "Effective Study Skills"]
       },
       {
         title: "Pillar 4: Digital Excellence",
-        items: ["Website Design", "Social Media Marketing", "Artificial Intelligence", "Making Friends Strategically", "Effective Study Skills"]
+        items: ["Website Design", "Social Media Marketing", "Artificial Intelligence"]
       }
     ],
     outcomes: [
@@ -195,30 +195,33 @@ export const programmes: Programme[] = [
       },
       {
         name: "Godwin France",
-        role: "Innovation & Business",
+        role: "Tech, Innovation & Business Facilitator",
         bio: "Entrepreneur and strategist dedicated to building scalable ecosystems for youth-led innovation across Ghana.",
         image: "/images/Godwin-France.jpeg"
       },
       {
         name: "Robert Mensah",
-        role: "Technology Facilitator",
-        bio: "Digital transformation specialist focused on equipping youth with the tools needed to thrive in the 4th Industrial Revolution."
+        role: "Financial Literacy & Education  Facilitator",
+        bio: "Digital transformation specialist focused on equipping youth with the tools needed to thrive in the 4th Industrial Revolution.",
+        image: "/images/Robert-Mensah.jpg"
       },
       {
         name: "Patience Morrison",
-        role: "Personal Development Coach",
-        bio: "Expert coach helping young people develop the mental resilience and attitude control required for lifelong success."
+        role: "Business & Personal Development Coach",
+        bio: "Expert coach helping young people develop the mental resilience and attitude control required for lifelong success.",
+        image: "/images/Patience-Morrison.jpg"
       },
       {
         name: "Victor Tekpetey",
-        role: "Finance & Operations",
-        bio: "Finance professional teaching the fundamentals of money management and strategic interpersonal relations."
+        role: "Public Speaking & Career Coach",
+        bio: "Finance professional teaching the fundamentals of money management and strategic interpersonal relations.",
+        image: "/images/Victor-Tekpetey.jpg"
       },
       {
         name: "Enoch Asiedu Yirenkyi",
-        role: "Creative Problem Solver",
+        role: "Creativity & Problem Solving Coach",
         bio: "Specialist in design thinking and creative strategy, guiding students to solve complex real-world challenges.",
-        image: "/images/enoch-yirenkyi.jpg"
+        image: "/images/enoch-yirenkyi-enoch_square.jpg"
       }
     ],
     perks: [
@@ -245,7 +248,7 @@ export const programmes: Programme[] = [
       "Mentorship from industry leaders",
       "Hands-on project development",
     ],
-    regions: ["Greater Accra", "Online (Global)"],
+    regions: ["Greater Accra"],
     keyDates: [
       { label: "Program Start", date: "2nd July" },
       { label: "Duration", date: "2 Months (July & August)" },

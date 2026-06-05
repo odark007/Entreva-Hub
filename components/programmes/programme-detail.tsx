@@ -102,7 +102,7 @@ export function ProgrammeDetail({ programme }: { programme: Programme }) {
           "mx-auto max-w-7xl rounded-2xl border border-entreva-green/30 bg-gradient-to-r from-entreva-charcoal/80 to-entreva-charcoal/60 backdrop-blur-xl p-8 shadow-2xl transition-all duration-700",
           statsAnim.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         )}>
-          <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
+          <div className="grid grid-cols-2 gap-8 md:grid-cols-5">
             <div className="space-y-1">
               <div className="flex items-center gap-2 text-entreva-green">
                 <Clock className="h-4 w-4" />
@@ -131,6 +131,13 @@ export function ProgrammeDetail({ programme }: { programme: Programme }) {
               </div>
               <p className="text-lg font-bold text-white">Hybrid Mode</p>
             </div>
+            <div className="space-y-1 border-l border-white/10 pl-8">
+              <div className="flex items-center gap-2 text-entreva-green">
+                <MapPin className="h-4 w-4" />
+                <span className="text-[10px] font-bold uppercase tracking-tighter text-entreva-green">Location</span>
+              </div>
+              <p className="text-lg font-bold text-white">Community 25</p>
+            </div>
           </div>
         </div>
       </section>
@@ -146,7 +153,7 @@ export function ProgrammeDetail({ programme }: { programme: Programme }) {
               
               {programme.vision && (
                 <div className="mt-10 rounded-2xl bg-muted p-8 border-l-4 border-entreva-green">
-                  <h3 className="text-sm font-bold uppercase tracking-widest text-entreva-green">Our Vision</h3>
+                  <h3 className="text-sm font-bold uppercase tracking-widest text-entreva-green">Purpose</h3>
                   <p className="mt-4 text-xl italic font-medium text-foreground">"{programme.vision}"</p>
                 </div>
               )}
@@ -172,7 +179,7 @@ export function ProgrammeDetail({ programme }: { programme: Programme }) {
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold text-foreground sm:text-4xl">The Future Force Curriculum</h2>
-            <p className="mt-4 text-muted-foreground">Comprehensive training across four core domains of modern excellence.</p>
+            <p className="mt-4 text-muted-foreground">Comprehensive practical training and workshops across four core domains of skills for the future.</p>
           </div>
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
