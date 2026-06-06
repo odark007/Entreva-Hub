@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, Suspense } from "react" // Added Suspense
+import { useState, useEffect, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
@@ -8,16 +8,18 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { CreditCard, Phone, Loader2, Info } from "lucide-react"
+import { CreditCard, Phone, Loader2, Info, User } from "lucide-react"
 import { toast } from "sonner"
 
-// 1. Create a sub-component for the content that uses useSearchParams
 function PaymentContent() {
   const searchParams = useSearchParams()
   const [isLoading, setIsLoading] = useState(false)
+
+  // Form States
   const [email, setEmail] = useState("")
+  const [fullName, setFullName] = useState("")
+  const [amount, setAmount] = useState("0") // Default to full price
   const [program, setProgram] = useState("future-force")
-  const price = 3500
 
   useEffect(() => {
     const emailParam = searchParams.get("email")
@@ -27,64 +29,80 @@ function PaymentContent() {
   }, [searchParams])
 
   const handlePaystackPayment = async () => {
-    setIsLoading(true)
+    if (!email || !amount || parseFloat(amount) <= 0) {
+      toast.error("Please provide a valid email and amount");
+      return;
+    }
+
+    setIsLoading(true);
     try {
-      const response = await fetch("/api/paystack/initialize", {
+      const response = await fetch("/paystack-init.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email,
-          amount: price,
+          full_name: fullName,
+          amount: parseFloat(amount),
           program_slug: program,
         }),
-      })
+      });
 
-      const data = await response.json()
+      const data = await response.json();
       if (data.url) {
-        window.location.href = data.url
+        window.location.href = data.url;
       } else {
-        throw new Error(data.error || "Failed to initialize payment")
+        throw new Error(data.error || "Failed to initialize payment");
       }
     } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.message);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-      {/* Option 1: Paystack (Online) */}
       <Card className="border-t-4 border-t-entreva-green shadow-lg">
         <CardHeader>
-          <div className="flex items-center gap-2 text-entreva-green">
-            <CreditCard className="h-5 w-5" />
-            <span className="text-xs font-bold uppercase tracking-wider">Recommended</span>
+          <div className="flex items-center gap-2 text-entreva-green font-bold uppercase tracking-wider text-xs">
+            <CreditCard className="h-4 w-4" /> Recommended
           </div>
-          <CardTitle className="mt-2">Pay Online</CardTitle>
-          <CardDescription>Instant confirmation via Mobile Money or Card</CardDescription>
+          <CardTitle className="mt-2 text-2xl">Pay Online</CardTitle>
+          <CardDescription>Instant confirmation via MoMo or Card</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="rounded-lg bg-slate-100 p-4 text-center">
-            <span className="text-sm text-muted-foreground">Amount to Pay</span>
-            <div className="text-3xl font-bold text-entreva-charcoal">GHS {price.toLocaleString()}</div>
-          </div>
+        <CardContent className="space-y-5">
           <div className="space-y-2">
-            <Label htmlFor="email">Confirmation Email</Label>
-            <Input 
-              id="email" 
-              type="email" 
-              value={email} 
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="parent@example.com" 
-            />
+            <Label>Full Name (Optional)</Label>
+            <div className="relative">
+              <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Input className="pl-10" placeholder="John Doe" value={fullName} onChange={(e) => setFullName(e.target.value)} />
+            </div>
           </div>
-          <Button 
+
+          <div className="space-y-2">
+            <Label>Confirmation Email</Label>
+            <Input type="email" placeholder="parent@example.com" value={email} onChange={(e) => setEmail(e.target.value)} />
+          </div>
+
+          <div className="rounded-xl bg-slate-100 p-4 border border-slate-200">
+            <Label className="text-center block mb-2 text-xs font-bold text-slate-500">AMOUNT TO PAY (GHS)</Label>
+            <div className="relative">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-slate-400">GHS</span>
+              <Input
+                type="number"
+                className="pl-14 text-2xl font-black h-14 text-center border-none bg-transparent focus-visible:ring-0"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+              />
+            </div>
+          </div>
+
+          <Button
             onClick={handlePaystackPayment}
-            className="w-full bg-entreva-green text-entreva-charcoal hover:bg-entreva-green/90 h-12 font-bold"
-            disabled={isLoading || !email}
+            className="w-full bg-entreva-green text-entreva-charcoal hover:bg-entreva-green/90 h-14 text-lg font-bold"
+            disabled={isLoading}
           >
-            {isLoading ? <Loader2 className="h-5 w-5 animate-spin" /> : "Pay Now with Paystack"}
+            {isLoading ? <Loader2 className="h-5 w-5 animate-spin" /> : `Pay GHS ${parseFloat(amount || "0").toLocaleString()} Now`}
           </Button>
         </CardContent>
       </Card>
@@ -122,7 +140,6 @@ function PaymentContent() {
   )
 }
 
-// 2. Main exported component that wraps the content in Suspense
 export default function PaymentsPage() {
   return (
     <main className="min-h-screen bg-slate-50/50">
@@ -130,16 +147,9 @@ export default function PaymentsPage() {
       <div className="mx-auto max-w-4xl px-6 pt-32 pb-24">
         <div className="mb-10 text-center">
           <h1 className="text-3xl font-bold text-entreva-charcoal">Complete Your Payment</h1>
-          <p className="mt-2 text-muted-foreground">Secure your spot in the program</p>
+          <p className="mt-2 text-muted-foreground">Secure your spot in the Future Force Program</p>
         </div>
-
-        {/* This Suspense boundary fixes the build error */}
-        <Suspense fallback={
-          <div className="flex flex-col items-center justify-center p-12">
-            <Loader2 className="h-8 w-8 animate-spin text-entreva-green" />
-            <p className="mt-4 text-muted-foreground">Loading payment details...</p>
-          </div>
-        }>
+        <Suspense fallback={<div className="flex justify-center p-12"><Loader2 className="animate-spin" /></div>}>
           <PaymentContent />
         </Suspense>
       </div>

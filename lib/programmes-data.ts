@@ -202,19 +202,19 @@ export const programmes: Programme[] = [
       {
         name: "Robert Mensah",
         role: "Financial Literacy & Education  Facilitator",
-        bio: "Digital transformation specialist focused on equipping youth with the tools needed to thrive in the 4th Industrial Revolution.",
+        bio: "Passionate financial education facilitator helping young people build strong money habits, make informed financial decisions, and create pathways to economic independence.",
         image: "/images/Robert-Mensah.jpg"
       },
       {
         name: "Patience Morrison",
         role: "Business & Personal Development Coach",
-        bio: "Expert coach helping young people develop the mental resilience and attitude control required for lifelong success.",
+        bio: "Business and personal development coach dedicated to helping young people build confidence, resilience, leadership skills, and a growth mindset for lasting success.",
         image: "/images/Patience-Morrison.jpg"
       },
       {
         name: "Victor Tekpetey",
         role: "Public Speaking & Career Coach",
-        bio: "Finance professional teaching the fundamentals of money management and strategic interpersonal relations.",
+        bio: "Public speaking and career coach helping young people build confidence, communicate effectively, and navigate their professional journeys with purpose and clarity.",
         image: "/images/Victor-Tekpetey.jpg"
       },
       {
