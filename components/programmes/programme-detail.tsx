@@ -102,7 +102,10 @@ export function ProgrammeDetail({ programme }: { programme: Programme }) {
           "mx-auto max-w-7xl rounded-2xl border border-entreva-green/30 bg-gradient-to-r from-entreva-charcoal/80 to-entreva-charcoal/60 backdrop-blur-xl p-8 shadow-2xl transition-all duration-700",
           statsAnim.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         )}>
-          <div className="grid grid-cols-2 gap-8 md:grid-cols-5">
+          {/* Grid updated to handle 6 items on large screens */}
+          <div className="grid grid-cols-2 gap-y-8 gap-x-4 md:grid-cols-3 lg:grid-cols-6">
+            
+            {/* 1. DURATION */}
             <div className="space-y-1">
               <div className="flex items-center gap-2 text-entreva-green">
                 <Clock className="h-4 w-4" />
@@ -110,28 +113,45 @@ export function ProgrammeDetail({ programme }: { programme: Programme }) {
               </div>
               <p className="text-lg font-bold text-white">2 Months</p>
             </div>
-            <div className="space-y-1 border-l border-white/10 pl-8">
+
+            {/* 2. MENTORING (NEW) */}
+            <div className="space-y-1 border-l border-white/10 pl-4 lg:pl-8">
+              <div className="flex items-center gap-2 text-entreva-green">
+                <Users className="h-4 w-4" />
+                <span className="text-[10px] font-bold uppercase tracking-tighter text-entreva-green">Mentoring</span>
+              </div>
+              <p className="text-lg font-bold text-white">Lifetime On-going</p>
+            </div>
+
+            {/* 3. SCHEDULE */}
+            <div className="space-y-1 border-l border-white/10 pl-4 lg:pl-8">
               <div className="flex items-center gap-2 text-entreva-green">
                 <Calendar className="h-4 w-4" />
                 <span className="text-[10px] font-bold uppercase tracking-tighter text-entreva-green">Schedule</span>
               </div>
               <p className="text-lg font-bold text-white">July & August</p>
             </div>
-            <div className="space-y-1 border-l border-white/10 pl-8">
+
+            {/* 4. INVESTMENT */}
+            <div className="space-y-1 border-l-0 md:border-l lg:border-l border-white/10 pl-0 md:pl-4 lg:pl-8">
               <div className="flex items-center gap-2 text-entreva-green">
                 <Wallet className="h-4 w-4" />
                 <span className="text-[10px] font-bold uppercase tracking-tighter text-entreva-green">Investment</span>
               </div>
               <p className="text-lg font-bold text-white">{programme.price || "Contact Us"}</p>
             </div>
-            <div className="space-y-1 border-l border-white/10 pl-8">
+
+            {/* 5. DELIVERY */}
+            <div className="space-y-1 border-l border-white/10 pl-4 lg:pl-8">
               <div className="flex items-center gap-2 text-entreva-green">
                 <Globe className="h-4 w-4" />
                 <span className="text-[10px] font-bold uppercase tracking-tighter text-entreva-green">Delivery</span>
               </div>
               <p className="text-lg font-bold text-white">Hybrid Mode</p>
             </div>
-            <div className="space-y-1 border-l border-white/10 pl-8">
+
+            {/* 6. LOCATION */}
+            <div className="space-y-1 border-l border-white/10 pl-4 lg:pl-8">
               <div className="flex items-center gap-2 text-entreva-green">
                 <MapPin className="h-4 w-4" />
                 <span className="text-[10px] font-bold uppercase tracking-tighter text-entreva-green">Location</span>

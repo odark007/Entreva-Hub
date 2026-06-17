@@ -152,7 +152,7 @@ export const programmes: Programme[] = [
     price: "GHS 3,550",
     shortDescription: "A personal development platform for JHS and SHS graduates focused on essential skills the education system overlooks.",
     overview: "Developed by Oakleaf Training and Consulting in collaboration with Entreva Hub, FFP identifies and fully develops the hidden potential of young people over two intensive months.",
-    about: "The Future Force Program is a catalyst for the development of young people, providing them with essential tools to be more focused, prepared, and skilled for their future careers and personal lives.",
+    about: "The Future Force Program is a catalyst for the development of young people, providing them with essential tools to be more focused, prepared, and skilled for their future careers and personal lives. We offer lifetime on-going mentoring for participants who graduate from the program.",
     vision: "To engage the minds, hearts, and hands of young people and prepare them for life at their full potential.",
     objectives: [
       "Identify and develop student potential for full functionality",
