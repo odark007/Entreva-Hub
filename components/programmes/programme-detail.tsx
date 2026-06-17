@@ -120,7 +120,7 @@ export function ProgrammeDetail({ programme }: { programme: Programme }) {
                 <Users className="h-4 w-4" />
                 <span className="text-[10px] font-bold uppercase tracking-tighter text-entreva-green">Mentoring</span>
               </div>
-              <p className="text-lg font-bold text-white">Lifetime On-going</p>
+              <p className="text-lg font-bold text-white">Lifetime</p>
             </div>
 
             {/* 3. SCHEDULE */}
