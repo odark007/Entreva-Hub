@@ -5,36 +5,7 @@ import Image from "next/image"
 import { ArrowRight, ArrowUpRight } from "lucide-react"
 import { useAnimateOnScroll } from "@/hooks/use-animate-on-scroll"
 import { cn } from "@/lib/utils"
-
-const programmes = [
-  {
-    slug: "mtn-sme-support",
-    title: "AgriStarter Programme",
-    description:
-      "unlock your potential and improve your livelihood by training, mentoring, coaching and funding of GHS 20,000 to launch your agribusiness idea.",
-    image: "/images/programme-mtn.jpg",
-    status: "Coming Soon" as const,
-    partner: "Entreva Hub",
-  },
-  {
-    slug: "agribusiness-accelerator",
-    title: "Agribusiness Accelerator",
-    description:
-      "Supporting entrepreneurs in agriculture and agribusiness value chains to scale operations and create employment.",
-    image: "/images/programme-agribusiness.jpg",
-    status: "Coming Soon" as const,
-    partner: "Entreva Hub",
-  },
-  {
-    slug: "tech-skills-bootcamp",
-    title: "Tech Skills Bootcamp",
-    description:
-      "Equipping young Ghanaians with in-demand digital and technology skills for the future of work.",
-    image: "/images/programme-tech.jpg",
-    status: "Coming Soon" as const,
-    partner: "Entreva Hub",
-  },
-]
+import { programmes } from "@/lib/programmes-data"
 
 export function ProgrammesSection() {
   const { ref, isVisible } = useAnimateOnScroll()
@@ -117,7 +88,7 @@ export function ProgrammesSection() {
                   {programme.title}
                 </h3>
                 <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
-                  {programme.description}
+                  {programme.shortDescription}
                 </p>
                 <div className="mt-4 flex items-center gap-2 text-sm font-medium text-entreva-green">
                   Learn more
