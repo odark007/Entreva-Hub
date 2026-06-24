@@ -7,14 +7,14 @@ import {
   CreditCard, 
   TrendingUp, 
   Activity, 
-  CheckCircle2, 
   Clock,
-  ArrowUpRight,
   Loader2,
   Calendar
 } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { Progress } from "@/components/ui/progress" // Ensure you have this shadcn component
+// --- ENSURE THESE IMPORTS EXIST ---
+import { Progress } from "@/components/ui/progress"
+import { Button } from "@/components/ui/button"
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState({
@@ -30,10 +30,14 @@ export default function AdminDashboard() {
     async function fetchDashboardData() {
       try {
         // 1. Fetch Registrations
-        const { data: regData } = await supabase.from("future_force_registrations").select("id, student_full_name, created_at")
+        const { data: regData } = await supabase
+          .from("future_force_registrations")
+          .select("id, student_full_name, created_at")
         
         // 2. Fetch Payments
-        const { data: payData } = await supabase.from("payments").select("*")
+        const { data: payData } = await supabase
+          .from("payments")
+          .select("*")
 
         const successfulPayments = payData?.filter(p => p.payment_status === "completed") || []
         const totalRevenue = successfulPayments.reduce((acc, curr) => acc + Number(curr.amount), 0)
@@ -44,12 +48,12 @@ export default function AdminDashboard() {
 
         setStats({ totalReg, paidReg, revenue: totalRevenue, conversion })
 
-        // 3. Create Activity Feed (Combine and sort by date)
+        // 3. Create Activity Feed
         const activity = [
             ...(regData?.map(r => ({ ...r, type: 'registration' })) || []),
             ...(successfulPayments.map(p => ({ ...p, type: 'payment', student_full_name: p.full_name })) || [])
         ].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
-        .slice(0, 5) // Last 5 actions
+        .slice(0, 5)
 
         setRecentActivity(activity)
       } catch (error) {
@@ -77,7 +81,6 @@ export default function AdminDashboard() {
         <p className="text-muted-foreground mt-2">Live performance of the Future Force Program.</p>
       </div>
       
-      {/* Metrics Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard icon={Users} label="Total Registrations" value={stats.totalReg} color="blue" />
         <StatCard icon={CreditCard} label="Revenue (GHS)" value={stats.revenue.toLocaleString()} color="green" />
@@ -137,14 +140,13 @@ export default function AdminDashboard() {
                     className="h-3 mt-4 bg-white/10" 
                 />
                 <p className="mt-8 text-xs text-background/40 leading-relaxed">
-                    Once the limit of 30 paid participants is reached, new registrations should be directed to the waitlist for Cohort 2.
+                    Limit: 30 paid participants.
                 </p>
-                <Button className="w-full mt-6 bg-white/10 hover:bg-white/20 text-white border-0 rounded-xl">
-                    View Paid List
+                <Button className="w-full mt-6 bg-white/10 hover:bg-white/20 text-white border-0 rounded-xl" asChild>
+                    <a href="/admin/registrations">View Registrations</a>
                 </Button>
             </div>
         </div>
-
       </div>
     </div>
   )
