@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { ArrowLeft, Loader2, Send } from "lucide-react"
 import emailjs from "@emailjs/browser"
+import { trackEvent } from "@/lib/analytics";
 
 import { supabase } from "@/lib/supabase"
 import { Button } from "@/components/ui/button"
@@ -112,6 +113,11 @@ export default function FutureForceRegister() {
       await emailjs.send(serviceId, templateId, emailParams, publicKey)
 
       toast.success("Registration successful!")
+
+      trackEvent("registration_complete", {
+        program: "future-force",
+        education_level: values.education_level
+      });
 
       // 3. Redirect to Payments Page
       router.push(`/payments?program=future-force&email=${values.parent_email}`)

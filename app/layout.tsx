@@ -2,6 +2,8 @@ import React from "react"
 import type { Metadata } from "next"
 import { Inter, Space_Mono } from "next/font/google"
 import "./globals.css"
+import GoogleAnalytics from "@/components/google-analytics"
+import { Toaster } from "@/components/ui/sonner" // Ensure you have a toaster for auth feedback
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 const spaceMono = Space_Mono({
@@ -39,7 +41,11 @@ export default function RootLayout({
       className={`${inter.variable} ${spaceMono.variable}`}
       suppressHydrationWarning
     >
-      <body className="font-sans antialiased" suppressHydrationWarning>{children}</body>
+      <body className="font-sans antialiased" suppressHydrationWarning>
+        <GoogleAnalytics GA_MEASUREMENT_ID="G-7DCVGLT6XM" />
+        {children}
+        <Toaster position="top-right" />
+      </body>
     </html>
   )
 }

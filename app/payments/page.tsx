@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { CreditCard, Phone, Loader2, Info, User } from "lucide-react"
 import { toast } from "sonner"
+import { trackEvent } from "@/lib/analytics"
 
 function PaymentContent() {
   const searchParams = useSearchParams()
@@ -27,6 +28,10 @@ function PaymentContent() {
     if (emailParam) setEmail(emailParam)
     if (programParam) setProgram(programParam)
   }, [searchParams])
+
+  useEffect(() => {
+    trackEvent("view_payment_page", { program: "future-force" });
+  }, []);
 
   const handlePaystackPayment = async () => {
     if (!email || !amount || parseFloat(amount) <= 0) {
@@ -49,6 +54,10 @@ function PaymentContent() {
 
       const data = await response.json();
       if (data.url) {
+        trackEvent("initiate_paystack_checkout", {
+          amount: parseFloat(amount),
+          email: email
+        });
         window.location.href = data.url;
       } else {
         throw new Error(data.error || "Failed to initialize payment");

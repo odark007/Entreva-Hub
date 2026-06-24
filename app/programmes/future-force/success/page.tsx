@@ -1,6 +1,6 @@
 "use client"
 
-import { Suspense, useRef } from "react"
+import { Suspense, useRef, useEffect } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 import Link from "next/link"
 import Image from "next/image"
@@ -10,12 +10,21 @@ import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import jsPDF from "jspdf"
 import html2canvas from "html2canvas"
+import { trackEvent } from "@/lib/analytics"
 
 function SuccessContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const reference = searchParams.get("reference") || "N/A"
   const receiptRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    trackEvent("purchase_complete", {
+      transaction_id: reference,
+      value: 3550, // Or the dynamic amount if passed
+      currency: "GHS"
+    });
+  }, [reference]);
 
   const handleDownloadReceipt = async () => {
     if (!receiptRef.current) return
