@@ -1,4 +1,4 @@
-name: Supabase Keep-Alive Pulse
+name: Supabase Redundant Pulse
 
 on:
   schedule:
