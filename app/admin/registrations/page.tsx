@@ -34,10 +34,18 @@ export default function RegistrationsPage() {
     fetchRegistrations()
   }, [])
 
+  const formatProgramName = (prog: string) => {
+    if (!prog) return "Future Force"
+    return prog
+      .split("-")
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ")
+  }
+
   async function fetchRegistrations() {
     try {
       const { data: registrations, error } = await supabase
-        .from("future_force_registrations")
+        .from("registrations")
         .select("*")
         .order("created_at", { ascending: false })
 
@@ -58,10 +66,11 @@ export default function RegistrationsPage() {
 
   // CSV Export Logic
   const exportToCSV = () => {
-    const headers = ["Date", "Student Name", "Level", "School", "Parent Name", "Parent Phone", "Status"]
+    const headers = ["Date", "Student Name", "Program", "Level", "School", "Parent Name", "Parent Phone", "Status"]
     const rows = filteredData.map(r => [
       new Date(r.created_at).toLocaleDateString(),
       r.student_full_name,
+      formatProgramName(r.program),
       r.education_level,
       r.school_name,
       r.parent_full_name,
@@ -74,7 +83,7 @@ export default function RegistrationsPage() {
     const link = document.createElement("a")
     const url = URL.createObjectURL(blob)
     link.setAttribute("href", url)
-    link.setAttribute("download", `FFP_Registrations_${new Date().toISOString().split('T')[0]}.csv`)
+    link.setAttribute("download", `Registrations_${new Date().toISOString().split('T')[0]}.csv`)
     link.style.visibility = 'hidden'
     document.body.appendChild(link)
     link.click()
@@ -116,6 +125,7 @@ export default function RegistrationsPage() {
           <TableHeader className="bg-slate-50/50">
             <TableRow>
               <TableHead className="font-bold py-5 pl-8">Student</TableHead>
+              <TableHead className="font-bold">Program</TableHead>
               <TableHead className="font-bold">Education Level</TableHead>
               <TableHead className="font-bold">Parent / Guardian</TableHead>
               <TableHead className="font-bold">Payment Status</TableHead>
@@ -126,11 +136,11 @@ export default function RegistrationsPage() {
           <TableBody>
             {loading ? (
               <TableRow>
-                <TableCell colSpan={6} className="h-32 text-center text-slate-400">Loading registrations...</TableCell>
+                <TableCell colSpan={7} className="h-32 text-center text-slate-400">Loading registrations...</TableCell>
               </TableRow>
             ) : filteredData.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={6} className="h-32 text-center text-slate-400">No registrations found.</TableCell>
+                <TableCell colSpan={7} className="h-32 text-center text-slate-400">No registrations found.</TableCell>
               </TableRow>
             ) : (
               filteredData.map((reg) => (
@@ -138,6 +148,11 @@ export default function RegistrationsPage() {
                   <TableCell className="pl-8 py-4">
                     <div className="font-bold text-entreva-charcoal">{reg.student_full_name}</div>
                     <div className="text-xs text-slate-500">{reg.school_name}</div>
+                  </TableCell>
+                  <TableCell>
+                    <Badge variant="outline" className="bg-purple-50 text-purple-700 border-purple-100 font-medium">
+                      {formatProgramName(reg.program)}
+                    </Badge>
                   </TableCell>
                   <TableCell>
                     <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-100 font-medium">

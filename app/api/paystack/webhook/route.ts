@@ -24,7 +24,7 @@ export async function POST(req: Request) {
 
     // Update Supabase to Completed
     const { error } = await supabase
-      .from('future_force_registrations')
+      .from('registrations')
       .update({ 
         payment_status: 'completed',
         paystack_reference: reference,

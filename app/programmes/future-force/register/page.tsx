@@ -74,13 +74,13 @@ export default function FutureForceRegister() {
     try {
       // 1. Save to Supabase
       const { error: dbError } = await supabase
-        .from("future_force_registrations")
+        .from("registrations")
         .insert([
           {
             student_full_name: values.student_full_name,
             student_dob: values.student_dob,
             education_level: values.education_level,
-            school_name: values.school_name,
+            school_name: values.school_name, 
             student_email: values.student_email || null,
             parent_full_name: values.parent_full_name,
             parent_relationship: values.parent_relationship,
@@ -88,6 +88,8 @@ export default function FutureForceRegister() {
             parent_email: values.parent_email,
             parental_consent: values.consent,
             payment_status: "pending",
+            status: "new",
+            program: "future-force"
           },
         ])
 

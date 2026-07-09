@@ -31,7 +31,7 @@ export default function AdminDashboard() {
       try {
         // 1. Fetch Registrations
         const { data: regData } = await supabase
-          .from("future_force_registrations")
+          .from("registrations")
           .select("id, student_full_name, created_at")
         
         // 2. Fetch Payments
