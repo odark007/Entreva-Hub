@@ -14,12 +14,6 @@ const testimonials = [
   },
   {
     quote:
-      "Through the MTN SME Support Programme, I received training and funding that helped me scale my business to three new regions.",
-    name: "Kwame Asante",
-    role: "Tech Startup Founder",
-  },
-  {
-    quote:
       "The community at Entreva Hub is incredible. Connecting with other entrepreneurs changed the trajectory of my career.",
     name: "Abena Osei",
     role: "Social Enterprise Leader",

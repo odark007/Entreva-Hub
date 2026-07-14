@@ -6,7 +6,6 @@ import { cn } from "@/lib/utils"
 const partners = [
   "MTN Ghana",
   "MTN Foundation",
-  "Ghana Enterprise Agency",
   "Ministry of Trade",
   "African Development Bank",
   "World Bank",
@@ -18,7 +17,7 @@ export function PartnersSection() {
   const { ref, isVisible } = useAnimateOnScroll()
 
   return (
-    <section className="bg-background py-24 lg:py-32 overflow-hidden" ref={ref}>
+    <section className="bg-background py-24 lg:py-32 overflow-hidden hidden" ref={ref}>
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div
           className={cn(
