@@ -5,7 +5,8 @@ import { usePathname } from "next/navigation"
 import { 
   LayoutDashboard, 
   Users, 
-  CreditCard, 
+  CreditCard,
+  FileText, 
   Settings, 
   LogOut, 
   ShieldCheck,
@@ -19,6 +20,7 @@ const menuItems = [
   { name: "Overview", href: "/admin/dashboard", icon: LayoutDashboard },
   { name: "Registrations", href: "/admin/registrations", icon: Users },
   { name: "Payments", href: "/admin/payments", icon: CreditCard },
+  { name: "Receipts", href: "/admin/receipts", icon: FileText },
   { name: "System Health", href: "/admin/heartbeat", icon: ShieldCheck },
 ]
 
