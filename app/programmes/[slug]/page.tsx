@@ -70,7 +70,7 @@ export default async function ProgrammePage({
     <main>
       <Navbar />
       <ProgrammeDetail programme={programme} />
-      <Footer />
+      <Footer cta={programme.cta} />
     </main>
   )
 }

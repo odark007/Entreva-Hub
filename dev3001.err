@@ -1,0 +1,8 @@
+⨯ Another next dev server is already running.
+
+- Local:        http://localhost:3000
+- PID:          144
+- Dir:          C:\Users\gofra\OneDrive\Documents\Entreva-Hub-GITHUB\Entreva-Hub
+- Log:          .next\dev\logs\next-development.log
+
+Run taskkill /PID 144 /F to stop it.

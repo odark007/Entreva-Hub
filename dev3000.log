@@ -1,0 +1,14 @@
+
+> my-project@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.100.28:3000
+- Environments: .env.local
+✓ Ready in 1383ms
+
+ GET /programmes/activate-by-entreva-hub/participate/ 200 in 4.1s (next.js: 3.1s, application-code: 995ms)
+ GET /programmes/activate-by-entreva-hub/participate/ 200 in 493ms (next.js: 16ms, application-code: 477ms)
+ GET /programmes/activate-by-entreva-hub/participate/ 200 in 278ms (next.js: 12ms, application-code: 266ms)
+ GET / 200 in 320ms (next.js: 169ms, application-code: 151ms)

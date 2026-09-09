@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import {
@@ -16,8 +17,33 @@ import {
   ChevronRight,
 } from "lucide-react"
 import type { Programme } from "@/lib/programmes-data"
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
 import { useAnimateOnScroll } from "@/hooks/use-animate-on-scroll"
 import { cn } from "@/lib/utils"
+
+function getStatIcon(icon?: string) {
+  switch (icon) {
+    case "clock":
+      return Clock
+    case "users":
+      return Users
+    case "calendar":
+      return Calendar
+    case "wallet":
+      return Wallet
+    case "globe":
+      return Globe
+    case "map-pin":
+      return MapPin
+    default:
+      return Clock
+  }
+}
 
 export function ProgrammeDetail({ programme }: { programme: Programme }) {
   const heroAnim = useAnimateOnScroll()
@@ -27,6 +53,26 @@ export function ProgrammeDetail({ programme }: { programme: Programme }) {
   const facilitatorAnim = useAnimateOnScroll()
 
   const isFutureForce = programme.slug === "future-force"
+
+  const stats = programme.stats || (isFutureForce ? [
+    { label: "Duration", value: "2 Months", icon: "clock" as const },
+    { label: "Mentoring", value: "Lifetime", icon: "users" as const },
+    { label: "Schedule", value: "July & August", icon: "calendar" as const },
+    { label: "Investment", value: programme.price || "Contact Us", icon: "wallet" as const },
+    { label: "Delivery", value: "Hybrid Mode", icon: "globe" as const },
+    { label: "Location", value: "Community 25", icon: "map-pin" as const },
+  ] : [])
+
+  const heroImages = programme.heroImages || []
+  const [currentSlide, setCurrentSlide] = useState(0)
+
+  useEffect(() => {
+    if (heroImages.length < 2) return
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % heroImages.length)
+    }, 4500)
+    return () => clearInterval(timer)
+  }, [heroImages.length])
 
   return (
     <>
@@ -59,7 +105,7 @@ export function ProgrammeDetail({ programme }: { programme: Programme }) {
                 <span className="rounded-full bg-entreva-green px-4 py-1 text-xs font-bold uppercase tracking-widest text-entreva-charcoal">
                   {programme.status}
                 </span>
-                <span className="text-xs font-mono text-background/40">Partner: {programme.partner}</span>
+                <span className="text-xs font-mono text-background/40">{programme.partner}</span>
               </div>
               
               <h1 className="text-4xl font-extrabold tracking-tight text-white md:text-6xl lg:text-7xl text-balance">
@@ -70,17 +116,68 @@ export function ProgrammeDetail({ programme }: { programme: Programme }) {
               </p>
 
               <div className="mt-10 flex flex-wrap gap-4">
-                <Link
-                  href={`/programmes/${programme.slug}/register`}
-                  className="group inline-flex items-center gap-2 rounded-xl bg-entreva-green px-8 py-4 font-bold text-entreva-charcoal transition-all hover:scale-105"
-                >
-                  Secure Your Spot
-                  <ArrowUpRight className="h-5 w-5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                </Link>
+                {programme.participateUrl && (
+                  <Link
+                    href={programme.participateUrl}
+                    className="group inline-flex items-center gap-2 rounded-xl bg-entreva-green px-8 py-4 font-bold text-entreva-charcoal transition-all hover:scale-105"
+                  >
+                    Participate
+                    <ArrowUpRight className="h-5 w-5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                  </Link>
+                )}
+                {programme.canRegister !== false && (
+                  <Link
+                    href={`/programmes/${programme.slug}/register`}
+                    className="group inline-flex items-center gap-2 rounded-xl bg-entreva-green px-8 py-4 font-bold text-entreva-charcoal transition-all hover:scale-105"
+                  >
+                    Secure Your Spot
+                    <ArrowUpRight className="h-5 w-5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                  </Link>
+                )}
               </div>
             </div>
 
-            {isFutureForce && (
+            {heroImages.length > 0 ? (
+              <div className="relative w-full aspect-square rounded-2xl overflow-hidden border-2 border-entreva-green/30 shadow-2xl bg-card">
+                {heroImages.map((src, idx) => (
+                  <div
+                    key={src}
+                    className={cn(
+                      "absolute inset-0 transition-opacity duration-1000 ease-in-out",
+                      currentSlide === idx
+                        ? "opacity-100"
+                        : "opacity-0 pointer-events-none"
+                    )}
+                  >
+                    <Image
+                      src={src}
+                      alt={`${programme.title} slide ${idx + 1}`}
+                      fill
+                      priority={idx === 0}
+                      className="object-cover"
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                    />
+                  </div>
+                ))}
+
+                <div className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 items-center gap-2">
+                  {heroImages.map((_, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      aria-label={`Show slide ${idx + 1}`}
+                      onClick={() => setCurrentSlide(idx)}
+                      className={cn(
+                        "h-2.5 rounded-full transition-all",
+                        currentSlide === idx
+                          ? "w-6 bg-entreva-green"
+                          : "w-2.5 bg-white/50 hover:bg-white/80"
+                      )}
+                    />
+                  ))}
+                </div>
+              </div>
+            ) : isFutureForce ? (
               <div className="relative w-full aspect-square rounded-2xl overflow-hidden border-2 border-entreva-green/30 shadow-2xl">
                 <Image
                   src="/images/future-froce-entreva-hub.jpg"
@@ -91,83 +188,55 @@ export function ProgrammeDetail({ programme }: { programme: Programme }) {
                   sizes="(max-width: 1024px) 100vw, 50vw"
                 />
               </div>
-            )}
+            ) : null}
           </div>
         </div>
       </section>
 
       {/* 2. QUICK STATS BAR (Logistics) */}
-      <section className="relative z-10 -mt-8 px-6 lg:px-8" ref={statsAnim.ref}>
-        <div className={cn(
-          "mx-auto max-w-7xl rounded-2xl border border-entreva-green/30 bg-gradient-to-r from-entreva-charcoal/80 to-entreva-charcoal/60 backdrop-blur-xl p-8 shadow-2xl transition-all duration-700",
-          statsAnim.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-        )}>
-          {/* Grid updated to handle 6 items on large screens */}
-          <div className="grid grid-cols-2 gap-y-8 gap-x-4 md:grid-cols-3 lg:grid-cols-6">
-            
-            {/* 1. DURATION */}
-            <div className="space-y-1">
-              <div className="flex items-center gap-2 text-entreva-green">
-                <Clock className="h-4 w-4" />
-                <span className="text-[10px] font-bold uppercase tracking-tighter text-entreva-green">Duration</span>
-              </div>
-              <p className="text-lg font-bold text-white">2 Months</p>
-            </div>
-
-            {/* 2. MENTORING (NEW) */}
-            <div className="space-y-1 border-l border-white/10 pl-4 lg:pl-8">
-              <div className="flex items-center gap-2 text-entreva-green">
-                <Users className="h-4 w-4" />
-                <span className="text-[10px] font-bold uppercase tracking-tighter text-entreva-green">Mentoring</span>
-              </div>
-              <p className="text-lg font-bold text-white">Lifetime</p>
-            </div>
-
-            {/* 3. SCHEDULE */}
-            <div className="space-y-1 border-l border-white/10 pl-4 lg:pl-8">
-              <div className="flex items-center gap-2 text-entreva-green">
-                <Calendar className="h-4 w-4" />
-                <span className="text-[10px] font-bold uppercase tracking-tighter text-entreva-green">Schedule</span>
-              </div>
-              <p className="text-lg font-bold text-white">July & August</p>
-            </div>
-
-            {/* 4. INVESTMENT */}
-            <div className="space-y-1 border-l-0 md:border-l lg:border-l border-white/10 pl-0 md:pl-4 lg:pl-8">
-              <div className="flex items-center gap-2 text-entreva-green">
-                <Wallet className="h-4 w-4" />
-                <span className="text-[10px] font-bold uppercase tracking-tighter text-entreva-green">Investment</span>
-              </div>
-              <p className="text-lg font-bold text-white">{programme.price || "Contact Us"}</p>
-            </div>
-
-            {/* 5. DELIVERY */}
-            <div className="space-y-1 border-l border-white/10 pl-4 lg:pl-8">
-              <div className="flex items-center gap-2 text-entreva-green">
-                <Globe className="h-4 w-4" />
-                <span className="text-[10px] font-bold uppercase tracking-tighter text-entreva-green">Delivery</span>
-              </div>
-              <p className="text-lg font-bold text-white">Hybrid Mode</p>
-            </div>
-
-            {/* 6. LOCATION */}
-            <div className="space-y-1 border-l border-white/10 pl-4 lg:pl-8">
-              <div className="flex items-center gap-2 text-entreva-green">
-                <MapPin className="h-4 w-4" />
-                <span className="text-[10px] font-bold uppercase tracking-tighter text-entreva-green">Location</span>
-              </div>
-              <p className="text-lg font-bold text-white">Community 25</p>
+      {stats.length > 0 && (
+        <section className="relative z-10 -mt-8 px-6 lg:px-8" ref={statsAnim.ref}>
+          <div className={cn(
+            "mx-auto max-w-7xl rounded-2xl border border-entreva-green/30 bg-gradient-to-r from-entreva-charcoal/80 to-entreva-charcoal/60 backdrop-blur-xl p-8 shadow-2xl transition-all duration-700",
+            statsAnim.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          )}>
+            <div className={cn(
+              "grid grid-cols-2 gap-y-8 gap-x-4",
+              stats.length <= 4 ? "md:grid-cols-4" : "md:grid-cols-3 lg:grid-cols-6"
+            )}>
+              {stats.map((item, idx) => {
+                const IconComponent = getStatIcon(item.icon)
+                return (
+                  <div
+                    key={item.label}
+                    className={cn(
+                      "space-y-1",
+                      idx !== 0 && "border-l border-white/10 pl-4 lg:pl-8",
+                      idx % 2 === 0 && "border-l-0 pl-0 md:border-l md:pl-4 lg:pl-8",
+                      idx === 0 && "md:border-l-0 md:pl-0 lg:border-l-0 lg:pl-0"
+                    )}
+                  >
+                    <div className="flex items-center gap-2 text-entreva-green">
+                      <IconComponent className="h-4 w-4" />
+                      <span className="text-[10px] font-bold uppercase tracking-tighter text-entreva-green">
+                        {item.label}
+                      </span>
+                    </div>
+                    <p className="text-lg font-bold text-white">{item.value}</p>
+                  </div>
+                )
+              })}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* 3. ABOUT & VISION */}
       <section className="bg-background py-24 lg:py-32" ref={contentAnim.ref}>
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-16 lg:grid-cols-2">
             <div className={cn("transition-all duration-700", contentAnim.isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-8")}>
-              <h2 className="text-3xl font-bold text-foreground">Bridging the Gap</h2>
+              <h2 className="text-3xl font-bold text-foreground">About {programme.title}</h2>
               <p className="mt-6 text-lg leading-relaxed text-muted-foreground">{programme.overview}</p>
               <p className="mt-4 text-lg leading-relaxed text-muted-foreground">{programme.about}</p>
               
@@ -179,26 +248,29 @@ export function ProgrammeDetail({ programme }: { programme: Programme }) {
               )}
             </div>
 
-            <div className={cn("space-y-8 transition-all duration-700 delay-200", contentAnim.isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8")}>
-              <h3 className="text-2xl font-bold text-foreground">Key Objectives</h3>
-              <ul className="grid gap-4">
-                {programme.objectives?.map((obj) => (
-                  <li key={obj} className="flex items-start gap-4 rounded-xl border p-4 hover:border-entreva-green/50 transition-colors">
-                    <CheckCircle2 className="h-6 w-6 shrink-0 text-entreva-green" />
-                    <span className="font-medium text-muted-foreground">{obj}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            {programme.objectives && programme.objectives.length > 0 && (
+              <div className={cn("space-y-8 transition-all duration-700 delay-200", contentAnim.isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8")}>
+                <h3 className="text-2xl font-bold text-foreground">Key Objectives</h3>
+                <ul className="grid gap-4">
+                  {programme.objectives?.map((obj) => (
+                    <li key={obj} className="flex items-start gap-4 rounded-xl border p-4 hover:border-entreva-green/50 transition-colors">
+                      <CheckCircle2 className="h-6 w-6 shrink-0 text-entreva-green" />
+                      <span className="font-medium text-muted-foreground">{obj}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
         </div>
       </section>
 
       {/* 4. THE CURRICULUM (PILLARS) */}
-      <section className="bg-card py-24 lg:py-32" ref={pillarsAnim.ref}>
+      {programme.pillars && programme.pillars.length > 0 && (
+        <section className="bg-card py-24 lg:py-32" ref={pillarsAnim.ref}>
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-foreground sm:text-4xl">The Future Force Curriculum</h2>
+            <h2 className="text-3xl font-bold text-foreground sm:text-4xl">{programme.title} by Entreva Hub Curriculum</h2>
             <p className="mt-4 text-muted-foreground">Comprehensive practical training and workshops across four core domains of skills for the future.</p>
           </div>
 
@@ -229,9 +301,59 @@ export function ProgrammeDetail({ programme }: { programme: Programme }) {
           </div>
         </div>
       </section>
+      )}
+
+      {/* 4b. PROGRAM STRUCTURE */}
+      {programme.structure && programme.structure.length > 0 && (
+        <section className="bg-background py-24 lg:py-32">
+          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+            <div className="mb-16 text-center">
+              <span className="text-xs font-mono uppercase tracking-wider text-entreva-green">
+                How It Works
+              </span>
+              <h2 className="mt-4 text-3xl font-bold text-foreground sm:text-4xl">Program Structure</h2>
+              <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
+                A week-by-week breakdown of the hands-on training journey.
+              </p>
+            </div>
+
+            <div className="space-y-20 lg:space-y-24">
+              {programme.structure.map((section, idx) => (
+                <div
+                  key={section.title}
+                  className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16"
+                >
+                  <div className={cn("relative aspect-[16/11] overflow-hidden rounded-2xl shadow-xl border border-border", idx % 2 === 1 && "lg:order-2")}>
+                    <Image
+                      src={section.image || "/placeholder.svg"}
+                      alt={section.title}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                    />
+                  </div>
+
+                  <div className={cn(idx % 2 === 1 && "lg:order-1")}>
+                    <span className="inline-flex items-center gap-2 rounded-full bg-entreva-green/10 px-3 py-1 text-xs font-bold uppercase tracking-widest text-entreva-green">
+                      {section.week}
+                    </span>
+                    <h3 className="mt-4 text-2xl font-bold text-foreground sm:text-3xl">
+                      {section.title}
+                    </h3>
+                    <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
+                      {section.description}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* 5. FACILITATORS SLIDER */}
-      <section className="bg-entreva-charcoal py-24 lg:py-32" ref={facilitatorAnim.ref}>
+      {programme.facilitators && programme.facilitators.length > 0 && (
+        <section className="bg-entreva-charcoal py-24 lg:py-32" ref={facilitatorAnim.ref}>
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
             <div className="max-w-2xl">
@@ -267,53 +389,142 @@ export function ProgrammeDetail({ programme }: { programme: Programme }) {
           </div>
         </div>
       </section>
+      )}
 
       {/* 6. OUTCOMES & PERKS */}
-      <section className="bg-background py-24 lg:py-32">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
-            {/* Outcomes */}
-            <div className="rounded-3xl border bg-card p-8 lg:p-12 shadow-sm">
-              <h2 className="text-2xl font-bold text-foreground mb-8">Expected Outcomes</h2>
-              <div className="grid gap-6">
-                {programme.outcomes?.map((outcome) => (
-                  <div key={outcome} className="flex gap-4">
-                    <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-entreva-green text-entreva-charcoal">
-                      <CheckCircle2 className="h-4 w-4" />
-                    </div>
-                    <p className="text-muted-foreground font-medium">{outcome}</p>
+      {(programme.outcomes && programme.outcomes.length > 0) || (programme.perks && programme.perks.length > 0) ? (
+        <section className="bg-background py-24 lg:py-32">
+          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+            <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
+              {/* Outcomes */}
+              {programme.outcomes && programme.outcomes.length > 0 && (
+                <div className="rounded-3xl border bg-card p-8 lg:p-12 shadow-sm">
+                  <h2 className="text-2xl font-bold text-foreground mb-8">Expected Outcomes</h2>
+                  <div className="grid gap-6">
+                    {programme.outcomes?.map((outcome) => (
+                      <div key={outcome} className="flex gap-4">
+                        <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-entreva-green text-entreva-charcoal">
+                          <CheckCircle2 className="h-4 w-4" />
+                        </div>
+                        <p className="text-muted-foreground font-medium">{outcome}</p>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
+                </div>
+              )}
+
+              {/* Perks / The Package */}
+              {programme.canRegister !== false && programme.perks && programme.perks.length > 0 && (
+                <div className="rounded-3xl bg-entreva-charcoal p-8 lg:p-12 text-white shadow-2xl">
+                  <h2 className="text-2xl font-bold mb-8 text-entreva-green">The FFP Package</h2>
+                  <p className="mb-8 text-background/60">The GHS 3,550 participation fee is a comprehensive investment that includes:</p>
+                  <div className="grid gap-4">
+                    {programme.perks?.map((perk) => (
+                      <div key={perk} className="flex items-center gap-4 rounded-xl border border-white/10 bg-white/5 p-4">
+                        <Star className="h-5 w-5 text-entreva-green" />
+                        <span className="font-bold">{perk}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="mt-12 text-center">
+                    <Link
+                      href={`/programmes/${programme.slug}/register`}
+                      className="w-full inline-flex justify-center items-center gap-2 rounded-xl bg-entreva-green px-8 py-5 font-black text-lg text-entreva-charcoal transition-all hover:bg-white"
+                    >
+                      Apply to Join the Next Cohort
+                      <ChevronRight className="h-5 w-5" />
+                    </Link>
+                    <p className="mt-4 text-xs text-background/40">Limited to 30 participants only. Installments available.</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      {/* 7. FAQ */}
+      {programme.faqs && programme.faqs.length > 0 && (
+        <section className="bg-card py-24 lg:py-32">
+          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+            <div className="mb-12 text-center">
+              <span className="text-xs font-mono uppercase tracking-wider text-entreva-green">
+                Got Questions?
+              </span>
+              <h2 className="mt-4 text-3xl font-bold text-foreground sm:text-4xl">
+                Frequently Asked Questions
+              </h2>
             </div>
 
-            {/* Perks / The Package */}
-            <div className="rounded-3xl bg-entreva-charcoal p-8 lg:p-12 text-white shadow-2xl">
-              <h2 className="text-2xl font-bold mb-8 text-entreva-green">The FFP Package</h2>
-              <p className="mb-8 text-background/60">The GHS 3,550 participation fee is a comprehensive investment that includes:</p>
-              <div className="grid gap-4">
-                {programme.perks?.map((perk) => (
-                  <div key={perk} className="flex items-center gap-4 rounded-xl border border-white/10 bg-white/5 p-4">
-                    <Star className="h-5 w-5 text-entreva-green" />
-                    <span className="font-bold">{perk}</span>
-                  </div>
-                ))}
+            <Accordion
+              type="single"
+              collapsible
+              className="mx-auto max-w-3xl rounded-2xl border bg-background px-6 shadow-sm"
+            >
+              {programme.faqs.map((faq, idx) => (
+                <AccordionItem key={faq.question} value={`faq-${idx}`}>
+                  <AccordionTrigger className="text-left text-base font-semibold text-foreground">
+                    {faq.question}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground leading-relaxed">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
+        </section>
+      )}
+
+      {/* 8. WHO SHOULD APPLY */}
+      {programme.applySection && (
+        <section className="bg-background py-24 lg:py-32">
+          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+            <div className="grid grid-cols-1 gap-16 lg:grid-cols-2 lg:gap-20">
+              <div>
+                <span className="text-xs font-mono uppercase tracking-wider text-entreva-green">
+                  Eligibility
+                </span>
+                <h2 className="mt-4 text-3xl font-bold text-foreground sm:text-4xl">
+                  Who Should Apply?
+                </h2>
+                <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
+                  {programme.applySection.intro}
+                </p>
+
+                <h3 className="mt-10 text-lg font-bold text-foreground">
+                  You should apply if you are:
+                </h3>
+                <ul className="mt-6 grid gap-4">
+                  {programme.applySection.criteria.map((criterion) => (
+                    <li key={criterion} className="flex items-start gap-3">
+                      <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-entreva-green" />
+                      <span className="font-medium text-muted-foreground">{criterion}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
-              
-              <div className="mt-12 text-center">
-                <Link
-                  href={`/programmes/${programme.slug}/register`}
-                  className="w-full inline-flex justify-center items-center gap-2 rounded-xl bg-entreva-green px-8 py-5 font-black text-lg text-entreva-charcoal transition-all hover:bg-white"
-                >
-                  Apply to Join the Next Cohort
-                  <ChevronRight className="h-5 w-5" />
-                </Link>
-                <p className="mt-4 text-xs text-background/40">Limited to 30 participants only. Installments available.</p>
+
+              <div className="rounded-3xl bg-entreva-charcoal p-8 text-white shadow-2xl lg:p-12">
+                <h3 className="text-2xl font-bold text-entreva-green">
+                  {programme.applySection.commitment.title}
+                </h3>
+                <div className="mt-8 space-y-8">
+                  {programme.applySection.commitment.items.map((item) => (
+                    <div key={item.label} className="border-t border-white/10 pt-6 first:border-t-0 first:pt-0">
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-background/40">
+                        {item.label}
+                      </p>
+                      <p className="mt-2 text-lg font-bold">{item.value}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
     </>
   )
 }

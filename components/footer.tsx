@@ -1,5 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
+import { cn } from "@/lib/utils"
 import {
   Linkedin,
   Facebook,
@@ -44,25 +45,47 @@ const socialLinks = [
   { href: "https://vt.tiktok.com/ZSCwVr2na/", icon: TiktokIcon, label: "TikTok" },
 ]
 
-export function Footer() {
+export interface FooterProps {
+  cta?: {
+    title?: string
+    description?: string
+    buttonText?: string
+    buttonUrl?: string
+    stacked?: boolean
+  }
+}
+
+export function Footer({ cta }: FooterProps = {}) {
+  const ctaTitle = cta?.title || "Ready to make an impact?"
+  const ctaDescription = cta?.description || "Join Entreva Hub and be part of the change."
+  const ctaButtonText = cta?.buttonText || "Join the Hub"
+  const ctaButtonUrl = cta?.buttonUrl || "/join"
+
   return (
     <footer className="bg-entreva-charcoal text-background">
       {/* Top CTA Band */}
       <div className="border-b border-background/10">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-6 py-12 md:flex-row lg:px-8">
-          <div>
+        <div
+          className={cn(
+            "mx-auto max-w-7xl px-6 py-12 lg:px-8",
+            cta?.stacked
+              ? "flex flex-col items-center text-center gap-6"
+              : "flex flex-col items-center justify-between gap-6 md:flex-row"
+          )}
+        >
+          <div className={cn(cta?.stacked && "max-w-2xl text-center")}>
             <h3 className="text-2xl font-bold text-background md:text-3xl">
-              Ready to make an impact?
+              {ctaTitle}
             </h3>
             <p className="mt-1 text-background/60">
-              Join Entreva Hub and be part of the change.
+              {ctaDescription}
             </p>
           </div>
           <Link
-            href="/join"
-            className="group flex items-center gap-2 rounded-lg bg-entreva-green px-8 py-4 font-semibold text-entreva-charcoal transition-all hover:bg-entreva-green/90"
+            href={ctaButtonUrl}
+            className="group inline-flex items-center gap-2 rounded-lg bg-entreva-green px-8 py-4 font-semibold text-entreva-charcoal transition-all hover:bg-entreva-green/90"
           >
-            Join the Hub
+            {ctaButtonText}
             <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
           </Link>
         </div>
