@@ -349,10 +349,11 @@ export default function ActivateParticipatePage() {
           >
             <ArrowLeft className="h-4 w-4" /> Back to Program Details
           </Link>
-          <h1 className="text-4xl font-black tracking-tight text-background">
+          <h1 className="text-4xl font-black leading-tight tracking-tight text-background">
             ACTIVATE{" "}
             <span className="text-entreva-green">
-              as implemented by Entreva Hub
+              Implemented by Social Enterprise Ghana with Entreva Hub as a
+              Training Service Provider
             </span>
           </h1>
           <p className="mt-4 max-w-2xl text-background/70 leading-relaxed">

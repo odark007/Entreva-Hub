@@ -31,11 +31,11 @@ const team = [
     linkedin: "https://www.linkedin.com/in/christian-tetteh-agbasi-19b06744/",
   },
   {
-    name: "Enoch Yirenkyi",
-    role: "Project Officer – Agric",
-    image: "/images/enoch-yirenkyi-enoch_square.jpg",
-    bio: "Enoch is the Project Officer – Agri at Entreva Hub. He is an agricultural professional focused on sustainable agriculture and empowerment, with experience supporting youth-centered initiatives, value addition, and agribusiness development. He is committed to designing innovative programs that ensures steady growth of Entreva Hub. He holds a BSc in Agriculture.",
-    linkedin: "https://www.linkedin.com/in/enoch-asiedu-yirenkyi-a756361b6/",
+    name: "Sylvia Vanderpure",
+    role: "Programs Officer",
+    image: "/images/Sylvia-Vanderpure.jpeg",
+    bio: "Programmes Manager with extensive experience leading multi-donor initiatives across international development, public health, WASH, agribusiness and youth empowerment. Proven track record in overseeing full project lifecycles from strategic design, field-level execution, and partner coordination to rigorous monitoring, evaluation, and budget oversight. Adept at navigating cross-cultural stakeholder environments, aligning diverse teams, and optimizing resources to deliver sustainable community impact. Recognized for combining data-driven project management with strategic leadership to scale program operations effectively.",
+    linkedin: "https://www.linkedin.com/in/sylvia-moncar-vanderpuye-03a88a158/",
   },
   {
     name: "Godwin France",

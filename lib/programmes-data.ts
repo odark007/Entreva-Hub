@@ -100,7 +100,7 @@ export const programmes: Programme[] = [
   {
     slug: "activate-by-entreva-hub",
     title: "ACTIVATE",
-    partner: "ACTIVATE implemented by Entreva Hub",
+    partner: "ACTIVATE Implemented by Social Enterprise Ghana with Entreva Hub as a Training Service Provider",
     status: "Rolling Dates",
     image: "/images/activate-by-entreva-hub-agribusiness.png",
     shortDescription:
@@ -216,7 +216,7 @@ export const programmes: Programme[] = [
       "Blended education and skills training",
       "Collaboration and linkages with key stakeholders",
     ],
-    regions: ["Dawhenya", "Kpong", "Ada/Sege", "Ashaiman"],
+    regions: ["Dawhenya", "Kpone", "Ada/Sege", "Ashaiman"],
     keyDates: [
       { label: "Applications", date: "Rolling Dates" },
     ],
@@ -238,14 +238,14 @@ export const programmes: Programme[] = [
     ],
     faqs: [
       {
-        question: "What is ACTIVATE by Entreva Hub?",
+        question: "What is ACTIVATE?",
         answer:
-          "ACTIVATE by Entreva Hub is a practical skills and entrepreneurship training initiative designed to equip young people with hands-on skills that can lead to employment, self-employment and agribusiness opportunities. The programme focuses on practical learning, enterprise development and market-relevant skills.",
+          "ACTIVATE is a practical skills and entrepreneurship training initiative designed to equip young people with hands-on skills that can lead to employment, self-employment and agribusiness opportunities. The programme focuses on practical learning, enterprise development and market-relevant skills.",
       },
       {
         question: "What training areas are available?",
         answer:
-          "Participants can choose from four key training areas: Local Drinks Production, Baking, Vegetable Processing, and Agribusiness. Each area combines practical skills with knowledge that can help participants apply what they learn in real-world work or business settings.",
+          "Participants would take all four key training areas: Local Drinks Production, Baking, Vegetable Processing, and Agribusiness. Each area combines practical skills with knowledge that can help participants apply what they learn in real-world work or business settings.",
       },
       {
         question: "How is the training delivered?",
@@ -270,7 +270,7 @@ export const programmes: Programme[] = [
     ],
     applySection: {
       intro:
-        "ACTIVATE by Entreva Hub is open to young people who are ready to build practical skills and explore opportunities in employment, self-employment and agribusiness.",
+        "ACTIVATE is open to young people who are ready to build practical skills and explore opportunities in employment, self-employment and agribusiness.",
       criteria: [
         "A woman between 15 and 35 years old",
         "A Person with Disability (PWD) — males are also eligible",
@@ -292,8 +292,8 @@ export const programmes: Programme[] = [
     },
     cta: {
       title: "Ready to Participate?",
-      description: "Join the ACTIVATE Program as implemented by Entreva Hub",
-      buttonText: "Participate",
+      description: "Join the ACTIVATE Program, implemented by Social Enterprise Ghana with Entreva Hub as a Training Service Provider",
+      buttonText: "Apply",
       buttonUrl: "/programmes/activate-by-entreva-hub/participate",
       stacked: true,
     },

@@ -121,7 +121,7 @@ export function ProgrammeDetail({ programme }: { programme: Programme }) {
                     href={programme.participateUrl}
                     className="group inline-flex items-center gap-2 rounded-xl bg-entreva-green px-8 py-4 font-bold text-entreva-charcoal transition-all hover:scale-105"
                   >
-                    Participate
+                    Apply
                     <ArrowUpRight className="h-5 w-5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                   </Link>
                 )}
@@ -270,7 +270,7 @@ export function ProgrammeDetail({ programme }: { programme: Programme }) {
         <section className="bg-card py-24 lg:py-32" ref={pillarsAnim.ref}>
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-foreground sm:text-4xl">{programme.title} by Entreva Hub Curriculum</h2>
+            <h2 className="text-3xl font-bold text-foreground sm:text-4xl">{programme.title} Curriculum</h2>
             <p className="mt-4 text-muted-foreground">Comprehensive practical training and workshops across four core domains of skills for the future.</p>
           </div>
 
