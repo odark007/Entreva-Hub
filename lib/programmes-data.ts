@@ -85,6 +85,7 @@ export interface Programme {
   category: "enterprise" | "agribusiness" | "tech" | "skills"
   canRegister?: boolean
   heroImages?: string[]
+  showcaseImage?: string
   introVideo?: {
     title: string
     url: string
@@ -316,6 +317,7 @@ export const programmes: Programme[] = [
     status: "Starts in November 2026",
     image: "/images/future-force-program-cover.jpg",
     heroImages: ["/images/future-force-program-junior.jpg"],
+    showcaseImage: "/images/entreva-hub-future-force-program-2026.jpg",
     introVideo: {
       title: "Welcome To Entreva Hub",
       url: "https://youtu.be/dboTXv30GWk",

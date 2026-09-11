@@ -507,6 +507,21 @@ export function ProgrammeDetail({ programme }: { programme: Programme }) {
       </section>
       )}
 
+      {/* 5b. SHOWCASE IMAGE */}
+      {programme.showcaseImage && (
+        <section className="relative w-full overflow-hidden">
+          <Image
+            src={programme.showcaseImage}
+            alt={`${programme.title} showcase`}
+            width={1920}
+            height={1080}
+            className="h-auto w-full object-cover"
+            sizes="100vw"
+            priority
+          />
+        </section>
+      )}
+
       {/* 6. OUTCOMES & PERKS */}
       {(programme.outcomes && programme.outcomes.length > 0) || (programme.perks && programme.perks.length > 0) ? (
         <section className="bg-background py-24 lg:py-32">
