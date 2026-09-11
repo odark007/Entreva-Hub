@@ -417,6 +417,7 @@ export const programmes: Programme[] = [
       "Professional Certificate of Completion",
       "Installment payment terms available",
       "Saturdays: 10am - 3pm",
+      "Individual Robotic kit to be purchases by pupil",
     ],
     testimonials: {
       title: "Testimonials from parents from Future Force Program (FFP)",
