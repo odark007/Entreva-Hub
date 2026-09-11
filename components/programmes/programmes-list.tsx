@@ -110,7 +110,7 @@ export function ProgrammesList() {
                 <Link
                   key={programme.slug}
                   data-card
-                  href={`/programmes/${programme.slug}`}
+                  href={programme.link || `/programmes/${programme.slug}`}
                   className={cn(
                     "group relative flex w-full shrink-0 snap-start flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all duration-500 hover:-translate-y-1 hover:border-entreva-green/30 hover:shadow-xl hover:shadow-entreva-green/5 sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)]",
                     listAnim.isVisible

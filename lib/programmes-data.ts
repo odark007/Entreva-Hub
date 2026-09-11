@@ -56,6 +56,9 @@ export interface Programme {
   shortDescription: string
   overview: string
   about: string
+  // Optional override for the card link (used when the programme's own
+  // detail page does not exist yet)
+  link?: string
   // New Optional Fields from PDF
   price?: string
   vision?: string
@@ -82,6 +85,14 @@ export interface Programme {
   category: "enterprise" | "agribusiness" | "tech" | "skills"
   canRegister?: boolean
   heroImages?: string[]
+  introVideo?: {
+    title: string
+    url: string
+  }
+  testimonials?: {
+    title: string
+    videos: string[]
+  }
   participateUrl?: string
   stats?: ProgrammeStat[]
   structure?: ProgrammeStructureSection[]
@@ -98,7 +109,7 @@ export interface Programme {
 
 export const programmes: Programme[] = [
   {
-    slug: "activate-by-entreva-hub",
+    slug: "activate",
     title: "ACTIVATE",
     partner: "ACTIVATE Implemented by Social Enterprise Ghana with Entreva Hub as a Training Service Provider",
     status: "Rolling Dates",
@@ -146,10 +157,10 @@ export const programmes: Programme[] = [
         ],
       },
       {
-        title: "Pillar 4: Agripreneur / Agribusiness",
+        title: "Pillar 4: Agripreneur",
         items: [
           "Business model & financial literacy",
-          "Agribusiness planning & record keeping",
+          "Agripreneur planning & record keeping",
           "Marketing & customer acquisition",
           "Access to finance & scaling",
         ],
@@ -179,9 +190,9 @@ export const programmes: Programme[] = [
       },
       {
         week: "Week 4",
-        title: "Agripreneur / Agribusiness",
+        title: "Agripreneur",
         description:
-          "Bring your skills together and become an agripreneur. This final week covers business planning, financial literacy, branding, customer acquisition, and access to finance so participants can launch or grow their agribusiness.",
+          "Bring your skills together and become an agripreneur. This final week covers business planning, financial literacy, branding, customer acquisition, and access to finance so participants can launch or grow their agripreneur.",
         image: "/images/activate-slide-4.jpg",
       },
     ],
@@ -229,7 +240,7 @@ export const programmes: Programme[] = [
       "/images/activate-slide-4.jpg",
       "/images/activate-slide-5.jpg",
     ],
-    participateUrl: "/programmes/activate-by-entreva-hub/participate",
+    participateUrl: "/programmes/activate/participate",
     stats: [
       { label: "Duration", value: "1 Month", icon: "clock" },
       { label: "Schedule", value: "TBA", icon: "calendar" },
@@ -240,12 +251,12 @@ export const programmes: Programme[] = [
       {
         question: "What is ACTIVATE?",
         answer:
-          "ACTIVATE is a practical skills and entrepreneurship training initiative designed to equip young people with hands-on skills that can lead to employment, self-employment and agribusiness opportunities. The programme focuses on practical learning, enterprise development and market-relevant skills.",
+          "ACTIVATE is a practical skills and entrepreneurship training initiative designed to equip young people with hands-on skills that can lead to employment, self-employment and agripreneur opportunities. The programme focuses on practical learning, enterprise development and market-relevant skills.",
       },
       {
         question: "What training areas are available?",
         answer:
-          "Participants would take all four key training areas: Local Drinks Production, Baking, Vegetable Processing, and Agribusiness. Each area combines practical skills with knowledge that can help participants apply what they learn in real-world work or business settings.",
+          "Participants would take all four key training areas: Local Drinks Production, Baking, Vegetable Processing, and agripreneur. Each area combines practical skills with knowledge that can help participants apply what they learn in real-world work or business settings.",
       },
       {
         question: "How is the training delivered?",
@@ -255,7 +266,7 @@ export const programmes: Programme[] = [
       {
         question: "Who can benefit from the programme?",
         answer:
-          "The programme is designed primarily to support young people seeking practical skills, employment opportunities or pathways into entrepreneurship and agribusiness. Participants should be willing to learn, practise their skills and explore opportunities to apply them after training.",
+          "The programme is designed primarily to support young people seeking practical skills, employment opportunities or pathways into entrepreneurship and agripreneur. Participants should be willing to learn, practise their skills and explore opportunities to apply them after training.",
       },
       {
         question: "Will I learn how to start a business?",
@@ -265,18 +276,18 @@ export const programmes: Programme[] = [
       {
         question: "What can I do after completing the training?",
         answer:
-          "The goal is to help participants move beyond training into real economic opportunities. Depending on their interests and abilities, participants can pursue employment, start or develop a small enterprise, enter agribusiness, or continue building their technical and entrepreneurial skills.",
+          "The goal is to help participants move beyond training into real economic opportunities. Depending on their interests and abilities, participants can pursue employment, start or develop a small enterprise, enter agripreneur, or continue building their technical and entrepreneurial skills.",
       },
     ],
     applySection: {
       intro:
-        "ACTIVATE is open to young people who are ready to build practical skills and explore opportunities in employment, self-employment and agribusiness.",
+        "ACTIVATE is open to young people who are ready to build practical skills and explore opportunities in employment, self-employment and agripreneur.",
       criteria: [
         "A woman between 15 and 35 years old",
         "A Person with Disability (PWD) — males are also eligible",
         "A recognized refugee — males are also eligible",
         "An Internally Displaced Person (IDP)",
-        "Interested in practical skills, entrepreneurship or agribusiness",
+        "Interested in practical skills, entrepreneurship or agripreneur",
         "Ready and available to participate in the full 20-day training programme",
         "Willing to participate in hands-on practical training",
       ],
@@ -294,9 +305,139 @@ export const programmes: Programme[] = [
       title: "Ready to Participate?",
       description: "Join the ACTIVATE Program, implemented by Social Enterprise Ghana with Entreva Hub as a Training Service Provider",
       buttonText: "Apply",
-      buttonUrl: "/programmes/activate-by-entreva-hub/participate",
+      buttonUrl: "/programmes/activate/participate",
       stacked: true,
     },
+  },
+  {
+    slug: "future-force-junior",
+    title: "Future Force Program - Junior (FFP-j)",
+    partner: "Entreva Hub & Oakleaf",
+    status: "Starts in November 2026",
+    image: "/images/future-force-program-cover.jpg",
+    heroImages: ["/images/future-force-program-junior.jpg"],
+    introVideo: {
+      title: "Welcome To Entreva Hub",
+      url: "https://youtu.be/dboTXv30GWk",
+    },
+    price: "TBA",
+    shortDescription:
+      "A junior edition of the Future Force Program, building essential life, robotic and technology skills for younger learners.",
+    overview:
+      "Developed by Oakleaf Training and Consulting in collaboration with Entreva Hub, the Future Force Program - Junior (FFP-j) identifies and fully develops the hidden potential of younger learners over a focused programme of training.",
+    about:
+      "The Future Force Program - Junior (FFP-j) is a catalyst for the development of young people, providing them with essential tools to be more focused, prepared, and skilled for their future careers and personal lives. We offer lifetime on-going mentoring for participants who graduate from the program.",
+    vision: "To engage the minds, hearts, and hands of young people and prepare them for life at their full potential.",
+    objectives: [
+      "Identify and develop student potential for full functionality",
+      "Develop entrepreneurial skills for the modern economy",
+      "Instill critical life skills and resilience",
+      "Equip participants with critical technology and AI skills"
+    ],
+    pillars: [
+      {
+        title: "Pillar 1: Self-Mastery",
+        items: ["Communication Skills", "Presentation Skills", "Self Confidence", "Public Speaking", "Leadership", "Attitude Control"]
+      },
+      {
+        title: "Pillar 2: Life & Career",
+        items: ["Reading Skills", "Goal Achievement", "Self-Motivation", "Interpersonal Relations", "Career Guidance"]
+      },
+      {
+        title: "Pillar 3: Growth & Money",
+        items: ["Creativity and Problem Solving", "Entrepreneurial Skills", "Financial Literacy", "Making Friends Strategically", "Effective Study Skills"]
+      },
+      {
+        title: "Pillar 4: Digital Excellence",
+        items: ["Website Design", "Game Development", "Social Media - Netiquette", "Artificial Intelligence", "Robotics"]
+      }
+    ],
+    outcomes: [
+      "Increased self-confidence, teamwork, and ability to communicate ideas clearly",
+      "Ability to identify problems, develop ideas, and turn them into practical products or solutions",
+      "Practical understanding of entrepreneurship, customers, pricing, sales, costs, profit, and savings",
+      "Hands-on experience in science, electronics, robotics, prototyping, and physical product creation",
+      "Understanding of how farms, factories, production processes, inventory, and supply chains work",
+      "Ability to use AI and digital tools responsibly to create simple games, websites, and other projects",
+      "Improved problem-solving, creativity, critical thinking, and design skills through experiential challenges",
+      "Ability to develop, demonstrate, and confidently pitch a product or business idea"
+    ],
+    facilitators: [
+      {
+        name: "Christian Tetteh Agbasi",
+        role: "Lead Strategist",
+        bio: "An expert in youth leadership and organizational development with a focus on empowering the next generation of African leaders.",
+        image: "/images/team-ceo.jpg"
+      },
+      {
+        name: "Godwin France",
+        role: "Tech, Innovation & Business Facilitator",
+        bio: "Entrepreneur and strategist dedicated to building scalable ecosystems for youth-led innovation across Ghana.",
+        image: "/images/Godwin-France.jpeg"
+      },
+      {
+        name: "Robert Mensah",
+        role: "Financial Literacy & Education Facilitator",
+        bio: "Passionate financial education facilitator helping young people build strong money habits, make informed financial decisions, and create pathways to economic independence.",
+        image: "/images/Robert-Mensah.jpg"
+      },
+      {
+        name: "Patience Morrison",
+        role: "Business & Personal Development Coach",
+        bio: "Business and personal development coach dedicated to helping young people build confidence, resilience, leadership skills, and a growth mindset for lasting success.",
+        image: "/images/Patience-Morrison.jpg"
+      },
+      {
+        name: "Victor Tekpetey",
+        role: "Public Speaking & Career Coach",
+        bio: "Public speaking and career coach helping young people build confidence, communicate effectively, and navigate their professional journeys with purpose and clarity.",
+        image: "/images/Victor-Tekpetey.jpg"
+      },
+      {
+        name: "Sylvia Vanderpure",
+        role: "Programmes Manager",
+        bio: "Experienced programmes manager with a strong background in multi-donor initiatives across international development, public health, WASH, agribusiness, and youth empowerment. Skilled in full project lifecycle oversight — from strategic design and field execution to monitoring, evaluation, and budget management. Known for combining data-driven management with strategic leadership to deliver sustainable community impact.",
+        image: "/images/Sylvia-Vanderpure.jpeg"
+      }
+    ],
+    regions: ["Greater Accra"],
+    keyDates: [
+      { label: "Program Start", date: "TBA" },
+      { label: "Status", date: "Starts in November 2026" },
+    ],
+    category: "skills",
+    canRegister: true,
+    perks: [
+      "Practical Hands-on Training",
+      "Official Printed Learning Materials",
+      "Exclusive Future Force T-Shirt",
+      "Industry Field Trips & Visits",
+      "Professional Certificate of Completion",
+      "Installment payment terms available",
+      "Saturdays: 10am - 3pm",
+    ],
+    testimonials: {
+      title: "Testimonials from parents from Future Force Program (FFP)",
+      videos: [
+        "https://youtube.com/shorts/pyLUmKmetQk?feature=share",
+        "https://youtube.com/shorts/sjAsPhs-er4?feature=share",
+        "https://youtube.com/shorts/TMkMWxZu2BA?feature=share",
+        "https://youtube.com/shorts/3zh5b06Qv2Y?feature=share",
+      ],
+    },
+    stats: [
+      { label: "Duration", value: "16 Saturdays", icon: "clock" },
+      { label: "Mentoring", value: "Lifetime", icon: "users" },
+      { label: "Schedule", value: "November to February", icon: "calendar" },
+      { label: "Investment", value: "GHS 3,550", icon: "wallet" },
+      { label: "Delivery", value: "In-Person", icon: "globe" },
+      { label: "Location", value: "Community 25", icon: "map-pin" },
+    ],
+    seo: {
+      title: "Future Force Program - Junior (FFP-j) | Entreva Hub",
+      description: "Coming soon. A junior edition of the Future Force Program for younger learners.",
+      ogImage: "/images/future-force-program-cover.jpg"
+    }
   },
   {
     slug: "agristarter-sme-support",
@@ -394,7 +535,7 @@ export const programmes: Programme[] = [
     slug: "future-force",
     title: "Future Force Program (FFP)",
     partner: "Entreva Hub & Oakleaf",
-    status: "Starting Date: 2nd July",
+    status: "Date: 2nd July to 29th Aug 2026",
     image: "/images/programme-tech.jpg",
     price: "GHS 3,550",
     shortDescription: "A personal development platform for JHS and SHS graduates focused on essential skills the education system overlooks.",
@@ -472,12 +613,12 @@ export const programmes: Programme[] = [
       }
     ],
     perks: [
-        "Practical Hands-on Training",
-        "Official Printed Learning Materials",
-        "Exclusive Future Force T-Shirt",
-        "Industry Field Trips & Visits",
-        "Professional Certificate of Completion",
-        "Installment payment terms available"
+      "Practical Hands-on Training",
+      "Official Printed Learning Materials",
+      "Exclusive Future Force T-Shirt",
+      "Industry Field Trips & Visits",
+      "Professional Certificate of Completion",
+      "Installment payment terms available",
     ],
     qualifications: [
       {

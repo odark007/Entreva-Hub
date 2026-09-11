@@ -15,6 +15,7 @@ import {
   Globe,
   Star,
   ChevronRight,
+  Play,
 } from "lucide-react"
 import type { Programme } from "@/lib/programmes-data"
 import {
@@ -45,6 +46,11 @@ function getStatIcon(icon?: string) {
   }
 }
 
+function getYouTubeId(url: string) {
+  const match = url.match(/(?:youtu\.be\/|shorts\/|v=|embed\/)([\w-]+)/)
+  return match ? match[1] : url
+}
+
 export function ProgrammeDetail({ programme }: { programme: Programme }) {
   const heroAnim = useAnimateOnScroll()
   const statsAnim = useAnimateOnScroll()
@@ -65,6 +71,17 @@ export function ProgrammeDetail({ programme }: { programme: Programme }) {
 
   const heroImages = programme.heroImages || []
   const [currentSlide, setCurrentSlide] = useState(0)
+  const videoId = programme.introVideo ? getYouTubeId(programme.introVideo.url) : null
+  const [videoPlaying, setVideoPlaying] = useState(false)
+  const [playingVideos, setPlayingVideos] = useState<Set<number>>(() => new Set())
+
+  const playVideo = (idx: number) => {
+    setPlayingVideos((prev) => {
+      const next = new Set(prev)
+      next.add(idx)
+      return next
+    })
+  }
 
   useEffect(() => {
     if (heroImages.length < 2) return
@@ -265,6 +282,50 @@ export function ProgrammeDetail({ programme }: { programme: Programme }) {
         </div>
       </section>
 
+      {/* 3b. WELCOME VIDEO */}
+      {programme.introVideo && videoId && (
+        <section className="bg-background py-24 lg:py-32">
+          <div className="mx-auto max-w-4xl px-6 lg:px-8">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-foreground sm:text-4xl">{programme.introVideo.title}</h2>
+            </div>
+
+            <div className="relative overflow-hidden rounded-2xl border border-border bg-entreva-charcoal shadow-2xl aspect-video">
+              {videoPlaying ? (
+                <iframe
+                  src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
+                  title={programme.introVideo.title}
+                  className="absolute inset-0 h-full w-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                />
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setVideoPlaying(true)}
+                  aria-label={`Play ${programme.introVideo.title}`}
+                  className="group absolute inset-0 h-full w-full cursor-pointer"
+                >
+                  <Image
+                    src={`https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`}
+                    alt={programme.introVideo.title}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 100vw, 896px"
+                  />
+                  <span className="absolute inset-0 bg-entreva-charcoal/40 transition-colors duration-300 group-hover:bg-entreva-charcoal/25" />
+                  <span className="absolute inset-0 flex items-center justify-center">
+                    <span className="flex h-20 w-20 items-center justify-center rounded-full bg-entreva-green text-entreva-charcoal shadow-xl transition-transform duration-300 group-hover:scale-110">
+                      <Play className="h-9 w-9 fill-current" />
+                    </span>
+                  </span>
+                </button>
+              )}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* 4. THE CURRICULUM (PILLARS) */}
       {programme.pillars && programme.pillars.length > 0 && (
         <section className="bg-card py-24 lg:py-32" ref={pillarsAnim.ref}>
@@ -301,6 +362,61 @@ export function ProgrammeDetail({ programme }: { programme: Programme }) {
           </div>
         </div>
       </section>
+      )}
+
+      {/* 4c. TESTIMONIALS */}
+      {programme.testimonials && programme.testimonials.videos.length > 0 && (
+        <section className="bg-background py-24 lg:py-32">
+          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+            <div className="mx-auto mb-16 max-w-3xl text-center">
+              <h2 className="text-3xl font-bold text-foreground sm:text-4xl">{programme.testimonials.title}</h2>
+            </div>
+
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {programme.testimonials.videos.map((url, idx) => {
+                const id = getYouTubeId(url)
+                const playing = playingVideos.has(idx)
+                return (
+                  <div
+                    key={url}
+                    className="relative aspect-[9/16] overflow-hidden rounded-2xl border border-border bg-entreva-charcoal shadow-2xl"
+                  >
+                    {playing ? (
+                      <iframe
+                        src={`https://www.youtube.com/embed/${id}?autoplay=1`}
+                        title={`${programme.testimonials!.title} ${idx + 1}`}
+                        className="absolute inset-0 h-full w-full"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen
+                      />
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => playVideo(idx)}
+                        aria-label={`Play ${programme.testimonials!.title} ${idx + 1}`}
+                        className="group absolute inset-0 h-full w-full cursor-pointer"
+                      >
+                        <Image
+                          src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`}
+                          alt={`${programme.testimonials!.title} ${idx + 1}`}
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 1024px) 50vw, 25vw"
+                        />
+                        <span className="absolute inset-0 bg-entreva-charcoal/40 transition-colors duration-300 group-hover:bg-entreva-charcoal/25" />
+                        <span className="absolute inset-0 flex items-center justify-center">
+                          <span className="flex h-16 w-16 items-center justify-center rounded-full bg-entreva-green text-entreva-charcoal shadow-xl transition-transform duration-300 group-hover:scale-110">
+                            <Play className="h-7 w-7 fill-current" />
+                          </span>
+                        </span>
+                      </button>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        </section>
       )}
 
       {/* 4b. PROGRAM STRUCTURE */}
@@ -414,7 +530,7 @@ export function ProgrammeDetail({ programme }: { programme: Programme }) {
               )}
 
               {/* Perks / The Package */}
-              {programme.canRegister !== false && programme.perks && programme.perks.length > 0 && (
+              {programme.perks && programme.perks.length > 0 && (
                 <div className="rounded-3xl bg-entreva-charcoal p-8 lg:p-12 text-white shadow-2xl">
                   <h2 className="text-2xl font-bold mb-8 text-entreva-green">The FFP Package</h2>
                   <p className="mb-8 text-background/60">The GHS 3,550 participation fee is a comprehensive investment that includes:</p>

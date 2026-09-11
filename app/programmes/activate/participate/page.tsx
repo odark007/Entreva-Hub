@@ -344,7 +344,7 @@ export default function ActivateParticipatePage() {
       <section className="bg-entreva-charcoal text-background">
         <div className="mx-auto max-w-3xl px-6 pt-32 pb-12 lg:px-8">
           <Link
-            href="/programmes/activate-by-entreva-hub"
+            href="/programmes/activate"
             className="mb-6 inline-flex items-center gap-2 text-sm text-background/70 hover:text-entreva-green"
           >
             <ArrowLeft className="h-4 w-4" /> Back to Program Details
