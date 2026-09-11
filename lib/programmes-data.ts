@@ -438,7 +438,7 @@ export const programmes: Programme[] = [
     ],
     seo: {
       title: "Future Force Program - Junior (FFP-j) | Entreva Hub",
-      description: "Coming soon. A junior edition of the Future Force Program for younger learners.",
+      description: "Starting in November. A junior edition of the Future Force Program for younger learners.",
       ogImage: "/images/future-force-program-cover.jpg"
     }
   },
