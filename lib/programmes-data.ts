@@ -115,6 +115,12 @@ export const programmes: Programme[] = [
     partner: "ACTIVATE Implemented by Social Enterprise Ghana with Entreva Hub as a Training Service Provider",
     status: "Rolling Dates",
     image: "/images/activate-by-entreva-hub-agribusiness.png",
+    seo: {
+      title: "ACTIVATE | Entreva Hub",
+      description:
+        "A Mastercard Foundation project strengthening Ghana's Agriculture TVET system through industry-led skills training and youth empowerment.",
+      ogImage: "/activate-entreva-hub-og.jpg",
+    },
     shortDescription:
       "A Mastercard Foundation project strengthening Ghana's Agriculture TVET system through industry-led skills training and youth empowerment.",
     overview:
@@ -196,22 +202,6 @@ export const programmes: Programme[] = [
           "Bring your skills together and become an agripreneur. This final week covers business planning, financial literacy, branding, customer acquisition, and access to finance so participants can launch or grow their agripreneur.",
         image: "/images/activate-slide-4.jpg",
       },
-    ],
-    outcomes: [
-      "Improved well-being and resilience of young women and men",
-      "Increased employability within agriculture value chains",
-      "Stronger collaboration between TVET institutions and industry",
-      "Demand-driven training aligned with market needs",
-      "Enhanced innovation and entrepreneurship in agriculture",
-      "A strengthened national ATVET system",
-    ],
-    perks: [
-      "Practical, industry-linked training",
-      "Official learning materials",
-      "Mentorship from agriculture experts",
-      "Field visits and value chain exposure",
-      "Professional certificate of completion",
-      "Access to a national stakeholder network",
     ],
     qualifications: [
       {
@@ -376,6 +366,12 @@ export const programmes: Programme[] = [
         role: "Tech, Innovation & Business Facilitator",
         bio: "Entrepreneur and strategist dedicated to building scalable ecosystems for youth-led innovation across Ghana.",
         image: "/images/Godwin-France.jpeg"
+      },
+      {
+        name: "Sandy Agbottah",
+        role: "Robotic Facilitator",
+        bio: "Teaches young people to build from scratch and to see the world through the lens of electronics. Builds his own tools when buying one would be faster, on the grounds that the long way round is where the understanding lives.",
+        image: "/images/Sandy-Agbottah.png"
       },
       {
         name: "Robert Mensah",
