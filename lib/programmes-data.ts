@@ -234,6 +234,8 @@ export const programmes: Programme[] = [
     participateUrl: "/programmes/activate/participate",
     stats: [
       { label: "Duration", value: "1 Month", icon: "clock" },
+      { label: "Days", value: "Monday to Friday", icon: "calendar" },
+      { label: "Timing", value: "3 Hours Daily", icon: "timer" },
       { label: "Schedule", value: "TBA", icon: "calendar" },
       { label: "Delivery", value: "In-Person", icon: "globe" },
       { label: "Location", value: "Various", icon: "map-pin" },

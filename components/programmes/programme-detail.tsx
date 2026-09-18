@@ -16,6 +16,7 @@ import {
   Star,
   ChevronRight,
   Play,
+  Timer,
 } from "lucide-react"
 import type { Programme } from "@/lib/programmes-data"
 import {
@@ -41,6 +42,8 @@ function getStatIcon(icon?: string) {
       return Globe
     case "map-pin":
       return MapPin
+    case "timer":
+      return Timer
     default:
       return Clock
   }

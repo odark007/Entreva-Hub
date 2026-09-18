@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { supabase } from "@/lib/supabase"
 import { 
   Search, 
@@ -13,7 +13,13 @@ import {
   Clock,
   Calendar,
   X,
-  ChevronDown,
+  FileText,
+  User,
+  MapPin,
+  Shield,
+  GraduationCap,
+  Heart,
+  Briefcase,
 } from "lucide-react"
 import { 
   Table, 
@@ -36,12 +42,65 @@ import {
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
 import { toast } from "sonner"
+import html2canvas from "html2canvas"
+import jsPDF from "jspdf"
+
+function formatLabel(key: string) {
+  return key
+    .replace(/_/g, " ")
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
+    .replace(/\b\w/g, (c) => c.toUpperCase())
+}
+
+const FIELD_SECTIONS: { title: string; icon: any; keys: string[] }[] = [
+  {
+    title: "Student Information",
+    icon: User,
+    keys: [
+      "student_full_name", "first_name", "surname",
+      "student_dob", "dob", "sex",
+      "student_email", "email",
+      "education_level", "education", "school_name",
+      "contact_1", "contact_2",
+    ],
+  },
+  {
+    title: "Parent / Guardian",
+    icon: Shield,
+    keys: [
+      "parent_full_name", "parent_relationship",
+      "parent_phone", "parent_email",
+      "guardian_name", "guardian_contact",
+    ],
+  },
+  {
+    title: "Location & Community",
+    icon: MapPin,
+    keys: ["community", "region"],
+  },
+  {
+    title: "Employment & Marital Status",
+    icon: Briefcase,
+    keys: ["employment_status", "marital_status"],
+  },
+  {
+    title: "Programme & Payment",
+    icon: GraduationCap,
+    keys: ["program", "can_attend_full_duration", "payment_status", "status", "hear_about"],
+  },
+  {
+    title: "Additional Information",
+    icon: Heart,
+    keys: ["is_pwd", "disability_types", "has_ghana_card", "is_refugee", "is_idp"],
+  },
+]
+
+const IGNORED_KEYS = new Set(["id", "created_at", "updated_at"])
 
 export default function RegistrationsPage() {
   const [data, setData] = useState<any[]>([])
@@ -54,6 +113,8 @@ export default function RegistrationsPage() {
   const [exportProgram, setExportProgram] = useState("all")
   const [exportDateFrom, setExportDateFrom] = useState("")
   const [exportDateTo, setExportDateTo] = useState("")
+  const [selectedReg, setSelectedReg] = useState<any | null>(null)
+  const printRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     fetchRegistrations()
@@ -122,20 +183,31 @@ export default function RegistrationsPage() {
       return
     }
 
-    const headers = ["Date", "Student Name", "Program", "Level", "School", "Parent Name", "Parent Phone", "Parent Email", "Status"]
-    const rows = exportData.map(r => [
-      new Date(r.created_at).toLocaleDateString(),
-      r.student_full_name,
-      formatProgramName(r.program),
-      r.education_level,
-      r.school_name,
-      r.parent_full_name,
-      r.parent_phone,
-      r.parent_email,
-      r.payment_status
-    ])
-    
-    const csvContent = [headers, ...rows].map(e => e.join(",")).join("\n")
+    const allKeys = new Set<string>()
+    exportData.forEach(row => Object.keys(row).forEach(k => allKeys.add(k)))
+    const headers = Array.from(allKeys)
+
+    const rows = exportData.map(row =>
+      headers.map(h => {
+        const val = row[h]
+        if (val === null || val === undefined) return ""
+        if (typeof val === "object") return JSON.stringify(val)
+        return String(val)
+      })
+    )
+
+    const escapeCSV = (val: string) => {
+      if (val.includes(",") || val.includes('"') || val.includes("\n")) {
+        return `"${val.replace(/"/g, '""')}"`
+      }
+      return val
+    }
+
+    const csvContent = [
+      headers.map(escapeCSV).join(","),
+      ...rows.map(r => r.map(escapeCSV).join(","))
+    ].join("\n")
+
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
     const link = document.createElement("a")
     const url = URL.createObjectURL(blob)
@@ -268,8 +340,13 @@ export default function RegistrationsPage() {
               filteredData.map((reg) => (
                 <TableRow key={reg.id} className="hover:bg-slate-50/50 transition-colors">
                   <TableCell className="pl-8 py-4">
-                    <div className="font-bold text-entreva-charcoal">{reg.student_full_name}</div>
-                    <div className="text-xs text-slate-500">{reg.school_name}</div>
+                    <button
+                      onClick={() => setSelectedReg(reg)}
+                      className="text-left hover:underline cursor-pointer"
+                    >
+                      <div className="font-bold text-entreva-charcoal">{reg.student_full_name || `${reg.first_name || ""} ${reg.surname || ""}`.trim()}</div>
+                      <div className="text-xs text-slate-500">{reg.school_name}</div>
+                    </button>
                   </TableCell>
                   <TableCell>
                     <Badge variant="outline" className="bg-purple-50 text-purple-700 border-purple-100 font-medium">
@@ -330,9 +407,9 @@ export default function RegistrationsPage() {
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle className="text-entreva-charcoal">Export Registrations</DialogTitle>
-            <DialogDescription>
+            <p className="text-sm text-slate-500">
               Choose filters for the data you want to export.
-            </DialogDescription>
+            </p>
           </DialogHeader>
 
           <div className="space-y-4 py-4">
@@ -385,6 +462,118 @@ export default function RegistrationsPage() {
               <Download className="h-4 w-4" /> Export CSV
             </Button>
           </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Registration Detail Dialog */}
+      <Dialog open={!!selectedReg} onOpenChange={(open) => { if (!open) setSelectedReg(null) }}>
+        <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-entreva-charcoal">Registration Details</DialogTitle>
+          </DialogHeader>
+
+          {selectedReg && (
+            <>
+              <div ref={printRef} className="bg-white p-6 rounded-lg">
+                <div className="mb-6 border-b-2 border-entreva-green pb-4">
+                  <h2 className="text-xl font-black text-entreva-charcoal">Registration Form</h2>
+                  <p className="text-sm text-slate-500">
+                    {formatProgramName(selectedReg.program)} — Registered{" "}
+                    {new Date(selectedReg.created_at).toLocaleDateString("en-GB", {
+                      day: "numeric", month: "long", year: "numeric",
+                    })}
+                  </p>
+                </div>
+
+                {FIELD_SECTIONS.map((section) => {
+                  const Icon = section.icon
+                  const fields = section.keys
+                    .map((k) => ({ key: k, value: selectedReg[k] }))
+                    .filter((f) => f.value !== null && f.value !== undefined && f.value !== "" && !(Array.isArray(f.value) && f.value.length === 0))
+                  if (fields.length === 0) return null
+                  return (
+                    <div key={section.title} className="mb-6">
+                      <div className="flex items-center gap-2 mb-3">
+                        <Icon className="h-4 w-4 text-entreva-green" />
+                        <h3 className="text-xs font-bold uppercase tracking-wider text-entreva-green">
+                          {section.title}
+                        </h3>
+                      </div>
+                      <div className="grid grid-cols-2 gap-x-6 gap-y-3 rounded-xl border bg-slate-50 p-4">
+                        {fields.map(({ key, value }) => (
+                          <div key={key}>
+                            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-0.5">
+                              {formatLabel(key)}
+                            </span>
+                            <span className="text-sm font-medium text-entreva-charcoal">
+                              {Array.isArray(value) ? value.join(", ") : String(value)}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )
+                })}
+
+                {(() => {
+                  const standardKeys = new Set(
+                    FIELD_SECTIONS.flatMap((s) => s.keys).concat([...IGNORED_KEYS])
+                  )
+                  const extra = Object.keys(selectedReg).filter(
+                    (k) => !standardKeys.has(k) && selectedReg[k] !== null && selectedReg[k] !== undefined && selectedReg[k] !== ""
+                  )
+                  if (extra.length === 0) return null
+                  return (
+                    <div className="mb-6">
+                      <div className="flex items-center gap-2 mb-3">
+                        <FileText className="h-4 w-4 text-entreva-green" />
+                        <h3 className="text-xs font-bold uppercase tracking-wider text-entreva-green">Other Fields</h3>
+                      </div>
+                      <div className="grid grid-cols-2 gap-x-6 gap-y-3 rounded-xl border bg-slate-50 p-4">
+                        {extra.map((k) => (
+                          <div key={k}>
+                            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-0.5">
+                              {formatLabel(k)}
+                            </span>
+                            <span className="text-sm font-medium text-entreva-charcoal">
+                              {Array.isArray(selectedReg[k]) ? selectedReg[k].join(", ") : String(selectedReg[k])}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )
+                })()}
+
+                <div className="mt-6 border-t pt-3 text-[10px] text-slate-400">
+                  Submitted on{" "}
+                  {new Date(selectedReg.created_at).toLocaleString("en-GB")} — ID: {selectedReg.id}
+                </div>
+              </div>
+
+              <DialogFooter className="gap-2">
+                <Button variant="outline" onClick={() => setSelectedReg(null)}>Close</Button>
+                <Button
+                  onClick={async () => {
+                    if (!printRef.current) return
+                    const el = printRef.current
+                    const canvas = await html2canvas(el, { scale: 2, useCORS: true, backgroundColor: "#ffffff" })
+                    const imgData = canvas.toDataURL("image/png")
+                    const pdf = new jsPDF("p", "mm", "a4")
+                    const w = pdf.internal.pageSize.getWidth()
+                    const h = (canvas.height * w) / canvas.width
+                    pdf.addImage(imgData, "PNG", 0, 0, w, h)
+                    const name = selectedReg.student_full_name || `${selectedReg.first_name || ""} ${selectedReg.surname || ""}`.trim() || "registration"
+                    pdf.save(`${name.replace(/\s+/g, "_")}_form.pdf`)
+                    toast.success("PDF downloaded")
+                  }}
+                  className="bg-entreva-green text-entreva-charcoal hover:bg-entreva-green/90 font-bold gap-2"
+                >
+                  <Download className="h-4 w-4" /> Download PDF
+                </Button>
+              </DialogFooter>
+            </>
+          )}
         </DialogContent>
       </Dialog>
     </div>
