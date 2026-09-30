@@ -90,8 +90,8 @@ const formSchema = z
       .min(1, "Date of birth is required")
       .refine((val) => {
         const year = Number(val.slice(0, 4))
-        return !isNaN(year) && year >= 1990 && year <= 2010
-      }, "You must be between 15 and 35 years old (born between 1990 and 2010)"),
+        return !isNaN(year) && year >= 1990 && year <= 2008
+      }, "You must be between 17 and 35 years old (born between 1990 and 2008)"),
     sex: z.string().optional(),
     contact_1: z.string().regex(PHONE_REGEX, "Enter a valid 10-digit phone number"),
     contact_2: z
@@ -471,13 +471,13 @@ export default function ActivateParticipatePage() {
                           <Input
                             type="date"
                             min="1990-01-01"
-                            max="2010-12-31"
+                            max="2008-12-31"
                             {...field}
                           />
                         </FormControl>
                         <p className="text-xs text-muted-foreground">
-                          Only applicants born between 1990 and 2010 (ages
-                          15&ndash;35) are eligible.
+                          Only applicants born between 1990 and 2008 (ages
+                          17&ndash;35) are eligible.
                         </p>
                         <FormMessage />
                       </FormItem>

@@ -20,6 +20,7 @@ import {
   GraduationCap,
   Heart,
   Briefcase,
+  Globe,
 } from "lucide-react"
 import { 
   Table, 
@@ -102,6 +103,46 @@ const FIELD_SECTIONS: { title: string; icon: any; keys: string[] }[] = [
 
 const IGNORED_KEYS = new Set(["id", "created_at", "updated_at"])
 
+const SUPABASE_REGISTRATIONS_COLUMNS = [
+  "id",
+  "created_at",
+  "program",
+  "status",
+  "payment_status",
+  "amount_paid",
+  "paystack_reference",
+  "student_full_name",
+  "first_name",
+  "surname",
+  "student_dob",
+  "sex",
+  "student_email",
+  "education_level",
+  "school_name",
+  "contact_1",
+  "contact_2",
+  "guardian_name",
+  "guardian_contact",
+  "parent_full_name",
+  "parent_relationship",
+  "parent_phone",
+  "parent_email",
+  "parental_consent",
+  "community",
+  "region",
+  "employment_status",
+  "marital_status",
+  "can_attend_full_duration",
+  "is_pwd",
+  "disability_types",
+  "hear_about",
+  "has_ghana_card",
+  "is_refugee",
+  "is_idp",
+  "momo_number",
+  "momo_name",
+]
+
 export default function RegistrationsPage() {
   const [data, setData] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
@@ -109,6 +150,8 @@ export default function RegistrationsPage() {
   const [programFilter, setProgramFilter] = useState("all")
   const [dateFrom, setDateFrom] = useState("")
   const [dateTo, setDateTo] = useState("")
+  const [communityFilter, setCommunityFilter] = useState("all")
+  const [regionFilter, setRegionFilter] = useState("all")
   const [showExportDialog, setShowExportDialog] = useState(false)
   const [exportProgram, setExportProgram] = useState("all")
   const [exportDateFrom, setExportDateFrom] = useState("")
@@ -150,6 +193,18 @@ export default function RegistrationsPage() {
     return Array.from(programs).sort()
   }, [data])
 
+  const uniqueCommunities = useMemo(() => {
+    const communities = new Set<string>()
+    data.forEach(r => { if (r.community) communities.add(r.community) })
+    return Array.from(communities).sort((a, b) => a.localeCompare(b))
+  }, [data])
+
+  const uniqueRegions = useMemo(() => {
+    const regions = new Set<string>()
+    data.forEach(r => { if (r.region) regions.add(r.region) })
+    return Array.from(regions).sort((a, b) => a.localeCompare(b))
+  }, [data])
+
   const filteredData = useMemo(() => {
     return data.filter(item => {
       const matchesSearch = 
@@ -158,14 +213,16 @@ export default function RegistrationsPage() {
         item.parent_full_name?.toLowerCase().includes(searchTerm.toLowerCase())
 
       const matchesProgram = programFilter === "all" || item.program === programFilter
+      const matchesCommunity = communityFilter === "all" || item.community === communityFilter
+      const matchesRegion = regionFilter === "all" || item.region === regionFilter
 
       const itemDate = new Date(item.created_at)
       const matchesDateFrom = !dateFrom || itemDate >= new Date(dateFrom)
       const matchesDateTo = !dateTo || itemDate <= new Date(dateTo + "T23:59:59")
 
-      return matchesSearch && matchesProgram && matchesDateFrom && matchesDateTo
+      return matchesSearch && matchesProgram && matchesCommunity && matchesRegion && matchesDateFrom && matchesDateTo
     })
-  }, [data, searchTerm, programFilter, dateFrom, dateTo])
+  }, [data, searchTerm, programFilter, communityFilter, regionFilter, dateFrom, dateTo])
 
   function getExportData(prog: string, from: string, to: string) {
     return data.filter(item => {
@@ -177,13 +234,13 @@ export default function RegistrationsPage() {
     })
   }
 
-  const exportToCSV = (exportData: any[]) => {
+  const exportToCSV = (exportData: any[], filenameSuffix = "") => {
     if (exportData.length === 0) {
       toast.error("No data to export")
       return
     }
 
-    const allKeys = new Set<string>()
+    const allKeys = new Set<string>(SUPABASE_REGISTRATIONS_COLUMNS)
     exportData.forEach(row => Object.keys(row).forEach(k => allKeys.add(k)))
     const headers = Array.from(allKeys)
 
@@ -191,45 +248,49 @@ export default function RegistrationsPage() {
       headers.map(h => {
         const val = row[h]
         if (val === null || val === undefined) return ""
+        if (Array.isArray(val)) return val.join("; ")
         if (typeof val === "object") return JSON.stringify(val)
         return String(val)
       })
     )
 
     const escapeCSV = (val: string) => {
-      if (val.includes(",") || val.includes('"') || val.includes("\n")) {
+      if (/[",\r\n]/.test(val)) {
         return `"${val.replace(/"/g, '""')}"`
       }
       return val
     }
 
-    const csvContent = [
+    const csvContent = "\ufeff" + [
       headers.map(escapeCSV).join(","),
       ...rows.map(r => r.map(escapeCSV).join(","))
-    ].join("\n")
+    ].join("\r\n")
 
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
     const link = document.createElement("a")
     const url = URL.createObjectURL(blob)
     link.setAttribute("href", url)
-    link.setAttribute("download", `Registrations_${new Date().toISOString().split('T')[0]}.csv`)
+    const suffix = filenameSuffix ? `_${filenameSuffix}` : ""
+    link.setAttribute("download", `Registrations${suffix}_${new Date().toISOString().split('T')[0]}.csv`)
     link.style.visibility = 'hidden'
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)
-    toast.success(`Exported ${exportData.length} records`)
+    toast.success(`Exported ${exportData.length} records with all ${headers.length} columns`)
   }
 
   function handleExport() {
     const exportData = getExportData(exportProgram, exportDateFrom, exportDateTo)
-    exportToCSV(exportData)
+    exportToCSV(exportData, exportProgram !== "all" ? exportProgram : "")
     setShowExportDialog(false)
   }
 
-  const activeFilters = (programFilter !== "all" || dateFrom || dateTo)
+  const activeFilters = (programFilter !== "all" || communityFilter !== "all" || regionFilter !== "all" || dateFrom || dateTo)
 
   function clearFilters() {
     setProgramFilter("all")
+    setCommunityFilter("all")
+    setRegionFilter("all")
     setDateFrom("")
     setDateTo("")
     setSearchTerm("")
@@ -243,9 +304,24 @@ export default function RegistrationsPage() {
           <h1 className="text-3xl font-black text-entreva-charcoal">Registrations</h1>
           <p className="text-muted-foreground mt-1">Manage student applications across all programmes.</p>
         </div>
-        <Button onClick={() => setShowExportDialog(true)} variant="outline" className="gap-2 border-2">
-          <Download className="h-4 w-4" /> Export CSV
-        </Button>
+        <div className="flex flex-wrap items-center gap-3">
+          <Button
+            onClick={() => exportToCSV(filteredData, activeFilters ? (programFilter !== "all" ? programFilter : "filtered") : "all")}
+            className="bg-entreva-green text-entreva-charcoal hover:bg-entreva-green/90 font-bold gap-2"
+          >
+            <Download className="h-4 w-4" /> Export CSV ({filteredData.length})
+          </Button>
+          {activeFilters && (
+            <Button
+              onClick={() => exportToCSV(data, "all")}
+              variant="outline"
+              className="gap-2 border-2"
+              title="Export all records without applying filters"
+            >
+              Export All ({data.length})
+            </Button>
+          )}
+        </div>
       </div>
 
       {/* Controls Area */}
@@ -302,6 +378,40 @@ export default function RegistrationsPage() {
               <SelectItem value="all">All Programmes</SelectItem>
               {uniquePrograms.map(p => (
                 <SelectItem key={p} value={p}>{formatProgramName(p)}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          <div className="h-6 w-px bg-slate-200" />
+
+          <div className="flex items-center gap-2">
+            <MapPin className="h-4 w-4 text-slate-500" />
+            <span className="text-sm font-medium text-slate-600">Community:</span>
+          </div>
+          <Select value={communityFilter} onValueChange={setCommunityFilter}>
+            <SelectTrigger className="w-48 border-slate-200 bg-slate-50 text-sm">
+              <SelectValue placeholder="All Communities" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Communities</SelectItem>
+              {uniqueCommunities.map(cmt => (
+                <SelectItem key={cmt} value={cmt}>{cmt}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          <div className="flex items-center gap-2">
+            <Globe className="h-4 w-4 text-slate-500" />
+            <span className="text-sm font-medium text-slate-600">Region:</span>
+          </div>
+          <Select value={regionFilter} onValueChange={setRegionFilter}>
+            <SelectTrigger className="w-48 border-slate-200 bg-slate-50 text-sm">
+              <SelectValue placeholder="All Regions" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Regions</SelectItem>
+              {uniqueRegions.map(rgn => (
+                <SelectItem key={rgn} value={rgn}>{rgn}</SelectItem>
               ))}
             </SelectContent>
           </Select>

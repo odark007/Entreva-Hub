@@ -276,7 +276,7 @@ export const programmes: Programme[] = [
       intro:
         "ACTIVATE is open to young people who are ready to build practical skills and explore opportunities in employment, self-employment and agripreneur.",
       criteria: [
-        "A woman between 15 and 35 years old",
+        "A woman between 17 and 35 years old",
         "A Person with Disability (PWD) — males are also eligible",
         "A recognized refugee — males are also eligible",
         "An Internally Displaced Person (IDP)",
