@@ -28,7 +28,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       try {
         const { data: { session }, error: sessionError } = await supabase.auth.getSession()
 
-        if (sessionError) throw sessionError
+        if (sessionError) {
+          await supabase.auth.signOut()
+          router.push("/admin/login")
+          return
+        }
 
         if (!session) {
           router.push("/admin/login")

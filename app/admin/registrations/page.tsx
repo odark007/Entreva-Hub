@@ -21,6 +21,7 @@ import {
   Heart,
   Briefcase,
   Globe,
+  Pencil,
 } from "lucide-react"
 import { 
   Table, 
@@ -63,10 +64,9 @@ const FIELD_SECTIONS: { title: string; icon: any; keys: string[] }[] = [
     title: "Student Information",
     icon: User,
     keys: [
-      "student_full_name", "first_name", "surname",
+      "first_name", "surname",
       "student_dob", "dob", "sex",
       "student_email", "email",
-      "education_level", "education", "school_name",
       "contact_1", "contact_2",
     ],
   },
@@ -74,8 +74,6 @@ const FIELD_SECTIONS: { title: string; icon: any; keys: string[] }[] = [
     title: "Parent / Guardian",
     icon: Shield,
     keys: [
-      "parent_full_name", "parent_relationship",
-      "parent_phone", "parent_email",
       "guardian_name", "guardian_contact",
     ],
   },
@@ -92,7 +90,7 @@ const FIELD_SECTIONS: { title: string; icon: any; keys: string[] }[] = [
   {
     title: "Programme & Payment",
     icon: GraduationCap,
-    keys: ["program", "can_attend_full_duration", "payment_status", "status", "hear_about"],
+    keys: ["program", "can_attend_full_duration", "hear_about"],
   },
   {
     title: "Additional Information",
@@ -143,6 +141,52 @@ const SUPABASE_REGISTRATIONS_COLUMNS = [
   "momo_name",
 ]
 
+type FieldConfig = {
+  type: "text" | "email" | "tel" | "date" | "number" | "select" | "checkbox" | "array"
+  options?: string[]
+}
+
+const FIELD_CONFIG: Record<string, FieldConfig> = {
+  student_full_name: { type: "text" },
+  first_name: { type: "text" },
+  surname: { type: "text" },
+  student_dob: { type: "date" },
+  dob: { type: "date" },
+  sex: { type: "select", options: ["Male", "Female"] },
+  student_email: { type: "email" },
+  email: { type: "email" },
+  education_level: { type: "select", options: ["JHS", "SHS", "Tertiary", "Other"] },
+  education: { type: "select", options: ["JHS", "SHS", "Tertiary", "Other"] },
+  school_name: { type: "text" },
+  contact_1: { type: "tel" },
+  contact_2: { type: "tel" },
+  parent_full_name: { type: "text" },
+  parent_relationship: { type: "select", options: ["Mother", "Father", "Guardian", "Other"] },
+  parent_phone: { type: "tel" },
+  parent_email: { type: "email" },
+  guardian_name: { type: "text" },
+  guardian_contact: { type: "tel" },
+  community: { type: "text" },
+  region: { type: "text" },
+  employment_status: { type: "select", options: ["Employed", "Unemployed", "Self-Employed", "Student"] },
+  marital_status: { type: "select", options: ["Single", "Married", "Divorced", "Widowed"] },
+  program: { type: "select", options: ["activate", "future-force-junior", "agristarter-sme-support", "future-force"] },
+  can_attend_full_duration: { type: "checkbox" },
+  payment_status: { type: "select", options: ["Pending", "Paid", "Failed"] },
+  status: { type: "select", options: ["Pending", "Approved", "Rejected"] },
+  hear_about: { type: "text" },
+  is_pwd: { type: "checkbox" },
+  disability_types: { type: "array" },
+  has_ghana_card: { type: "checkbox" },
+  is_refugee: { type: "checkbox" },
+  is_idp: { type: "checkbox" },
+  parental_consent: { type: "checkbox" },
+  amount_paid: { type: "number" },
+  momo_number: { type: "tel" },
+  momo_name: { type: "text" },
+  paystack_reference: { type: "text" },
+}
+
 export default function RegistrationsPage() {
   const [data, setData] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
@@ -158,6 +202,9 @@ export default function RegistrationsPage() {
   const [exportDateTo, setExportDateTo] = useState("")
   const [selectedReg, setSelectedReg] = useState<any | null>(null)
   const printRef = useRef<HTMLDivElement>(null)
+  const [isEditing, setIsEditing] = useState(false)
+  const [editForm, setEditForm] = useState<Record<string, any>>({})
+  const [saving, setSaving] = useState(false)
 
   useEffect(() => {
     fetchRegistrations()
@@ -294,6 +341,93 @@ export default function RegistrationsPage() {
     setDateFrom("")
     setDateTo("")
     setSearchTerm("")
+  }
+
+  function startEditing() {
+    if (!selectedReg) return
+    const form: Record<string, any> = {}
+    Object.keys(selectedReg).forEach(k => {
+      if (IGNORED_KEYS.has(k)) return
+      const val = selectedReg[k]
+      if (Array.isArray(val)) {
+        form[k] = val.join(", ")
+      } else {
+        form[k] = val ?? ""
+      }
+    })
+    setEditForm(form)
+    setIsEditing(true)
+  }
+
+  async function saveEdits() {
+    if (!selectedReg) return
+    setSaving(true)
+    try {
+      const update: Record<string, any> = {}
+      Object.entries(editForm).forEach(([k, v]) => {
+        if (IGNORED_KEYS.has(k)) return
+        const config = FIELD_CONFIG[k]
+        if (config?.type === "checkbox") {
+          update[k] = Boolean(v)
+        } else if (config?.type === "array") {
+          update[k] = v ? String(v).split(",").map(s => s.trim()).filter(Boolean) : []
+        } else if (config?.type === "number") {
+          update[k] = v === "" ? null : Number(v)
+        } else {
+          update[k] = v === "" ? null : v
+        }
+      })
+      const { error } = await supabase.from("registrations").update(update).eq("id", selectedReg.id)
+      if (error) throw error
+      setData(prev => prev.map(r => r.id === selectedReg.id ? { ...r, ...update } : r))
+      setSelectedReg(prev => prev ? { ...prev, ...update } : prev)
+      setIsEditing(false)
+      toast.success("Registration updated")
+    } catch (err: any) {
+      toast.error(err.message || "Failed to update registration")
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  function renderEditInput(key: string, value: any) {
+    const config = FIELD_CONFIG[key] || { type: "text" as const }
+    if (config.type === "checkbox") {
+      return (
+        <label className="flex items-center gap-2 text-sm">
+          <input
+            type="checkbox"
+            checked={Boolean(value)}
+            onChange={(e) => setEditForm(prev => ({ ...prev, [key]: e.target.checked }))}
+            className="h-4 w-4 accent-entreva-green"
+          />
+          <span className="text-slate-600">Yes</span>
+        </label>
+      )
+    }
+    if (config.type === "select" && config.options) {
+      return (
+        <Select value={value ?? ""} onValueChange={(v) => setEditForm(prev => ({ ...prev, [key]: v }))}>
+          <SelectTrigger className="w-full border-slate-200 bg-slate-50 text-sm h-9">
+            <SelectValue placeholder="Select..." />
+          </SelectTrigger>
+          <SelectContent>
+            {config.options.map(opt => (
+              <SelectItem key={opt} value={opt}>{opt}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      )
+    }
+    return (
+      <Input
+        type={config.type === "array" ? "text" : config.type}
+        value={value ?? ""}
+        onChange={(e) => setEditForm(prev => ({ ...prev, [key]: e.target.value }))}
+        className="border-slate-200 bg-slate-50 text-sm h-9"
+        placeholder={config.type === "array" ? "Comma-separated values" : ""}
+      />
+    )
   }
 
   return (
@@ -576,10 +710,12 @@ export default function RegistrationsPage() {
       </Dialog>
 
       {/* Registration Detail Dialog */}
-      <Dialog open={!!selectedReg} onOpenChange={(open) => { if (!open) setSelectedReg(null) }}>
+      <Dialog open={!!selectedReg} onOpenChange={(open) => { if (!open) { setSelectedReg(null); setIsEditing(false) } }}>
         <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle className="text-entreva-charcoal">Registration Details</DialogTitle>
+            <DialogTitle className="text-entreva-charcoal">
+              {isEditing ? "Edit Registration" : "Registration Details"}
+            </DialogTitle>
           </DialogHeader>
 
           {selectedReg && (
@@ -598,8 +734,11 @@ export default function RegistrationsPage() {
                 {FIELD_SECTIONS.map((section) => {
                   const Icon = section.icon
                   const fields = section.keys
-                    .map((k) => ({ key: k, value: selectedReg[k] }))
-                    .filter((f) => f.value !== null && f.value !== undefined && f.value !== "" && !(Array.isArray(f.value) && f.value.length === 0))
+                    .map((k) => ({ key: k, value: isEditing ? editForm[k] : selectedReg[k] }))
+                    .filter((f) => {
+                      if (isEditing) return f.value !== undefined && f.value !== null && !(f.value === "" && !FIELD_CONFIG[f.key])
+                      return f.value !== null && f.value !== undefined && f.value !== "" && !(Array.isArray(f.value) && f.value.length === 0)
+                    })
                   if (fields.length === 0) return null
                   return (
                     <div key={section.title} className="mb-6">
@@ -615,9 +754,13 @@ export default function RegistrationsPage() {
                             <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-0.5">
                               {formatLabel(key)}
                             </span>
-                            <span className="text-sm font-medium text-entreva-charcoal">
-                              {Array.isArray(value) ? value.join(", ") : String(value)}
-                            </span>
+                            {isEditing ? (
+                              renderEditInput(key, value)
+                            ) : (
+                              <span className="text-sm font-medium text-entreva-charcoal">
+                                {Array.isArray(value) ? value.join(", ") : String(value)}
+                              </span>
+                            )}
                           </div>
                         ))}
                       </div>
@@ -625,62 +768,54 @@ export default function RegistrationsPage() {
                   )
                 })}
 
-                {(() => {
-                  const standardKeys = new Set(
-                    FIELD_SECTIONS.flatMap((s) => s.keys).concat([...IGNORED_KEYS])
-                  )
-                  const extra = Object.keys(selectedReg).filter(
-                    (k) => !standardKeys.has(k) && selectedReg[k] !== null && selectedReg[k] !== undefined && selectedReg[k] !== ""
-                  )
-                  if (extra.length === 0) return null
-                  return (
-                    <div className="mb-6">
-                      <div className="flex items-center gap-2 mb-3">
-                        <FileText className="h-4 w-4 text-entreva-green" />
-                        <h3 className="text-xs font-bold uppercase tracking-wider text-entreva-green">Other Fields</h3>
-                      </div>
-                      <div className="grid grid-cols-2 gap-x-6 gap-y-3 rounded-xl border bg-slate-50 p-4">
-                        {extra.map((k) => (
-                          <div key={k}>
-                            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-0.5">
-                              {formatLabel(k)}
-                            </span>
-                            <span className="text-sm font-medium text-entreva-charcoal">
-                              {Array.isArray(selectedReg[k]) ? selectedReg[k].join(", ") : String(selectedReg[k])}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )
-                })()}
-
-                <div className="mt-6 border-t pt-3 text-[10px] text-slate-400">
-                  Submitted on{" "}
-                  {new Date(selectedReg.created_at).toLocaleString("en-GB")} — ID: {selectedReg.id}
-                </div>
+                {!isEditing && (
+                  <div className="mt-6 border-t pt-3 text-[10px] text-slate-400">
+                    Submitted on{" "}
+                    {new Date(selectedReg.created_at).toLocaleString("en-GB")} — ID: {selectedReg.id}
+                  </div>
+                )}
               </div>
 
               <DialogFooter className="gap-2">
-                <Button variant="outline" onClick={() => setSelectedReg(null)}>Close</Button>
-                <Button
-                  onClick={async () => {
-                    if (!printRef.current) return
-                    const el = printRef.current
-                    const canvas = await html2canvas(el, { scale: 2, useCORS: true, backgroundColor: "#ffffff" })
-                    const imgData = canvas.toDataURL("image/png")
-                    const pdf = new jsPDF("p", "mm", "a4")
-                    const w = pdf.internal.pageSize.getWidth()
-                    const h = (canvas.height * w) / canvas.width
-                    pdf.addImage(imgData, "PNG", 0, 0, w, h)
-                    const name = selectedReg.student_full_name || `${selectedReg.first_name || ""} ${selectedReg.surname || ""}`.trim() || "registration"
-                    pdf.save(`${name.replace(/\s+/g, "_")}_form.pdf`)
-                    toast.success("PDF downloaded")
-                  }}
-                  className="bg-entreva-green text-entreva-charcoal hover:bg-entreva-green/90 font-bold gap-2"
-                >
-                  <Download className="h-4 w-4" /> Download PDF
-                </Button>
+                {isEditing ? (
+                  <>
+                    <Button variant="outline" onClick={() => setIsEditing(false)} disabled={saving}>
+                      Cancel
+                    </Button>
+                    <Button
+                      onClick={saveEdits}
+                      disabled={saving}
+                      className="bg-entreva-green text-entreva-charcoal hover:bg-entreva-green/90 font-bold gap-2"
+                    >
+                      {saving ? "Saving..." : "Save Changes"}
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button variant="outline" onClick={() => setSelectedReg(null)}>Close</Button>
+                    <Button variant="outline" onClick={startEditing} className="gap-2 border-2">
+                      <Pencil className="h-4 w-4" /> Edit
+                    </Button>
+                    <Button
+                      onClick={async () => {
+                        if (!printRef.current) return
+                        const el = printRef.current
+                        const canvas = await html2canvas(el, { scale: 2, useCORS: true, backgroundColor: "#ffffff" })
+                        const imgData = canvas.toDataURL("image/png")
+                        const pdf = new jsPDF("p", "mm", "a4")
+                        const w = pdf.internal.pageSize.getWidth()
+                        const h = (canvas.height * w) / canvas.width
+                        pdf.addImage(imgData, "PNG", 0, 0, w, h)
+                        const name = selectedReg.student_full_name || `${selectedReg.first_name || ""} ${selectedReg.surname || ""}`.trim() || "registration"
+                        pdf.save(`${name.replace(/\s+/g, "_")}_form.pdf`)
+                        toast.success("PDF downloaded")
+                      }}
+                      className="bg-entreva-green text-entreva-charcoal hover:bg-entreva-green/90 font-bold gap-2"
+                    >
+                      <Download className="h-4 w-4" /> Download PDF
+                    </Button>
+                  </>
+                )}
               </DialogFooter>
             </>
           )}
