@@ -290,7 +290,7 @@ export function JoinContent() {
                   WhatsApp Us
                 </a>
                 <a
-                  href="mailto:info@entrevahub.com"
+                  href="mailto:info@entrevahub.org"
                   className="flex items-center gap-4 text-sm text-foreground transition-colors hover:text-entreva-green"
                 >
                   <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-entreva-green/10 text-entreva-green">
