@@ -164,11 +164,11 @@ export function Footer({ cta }: FooterProps = {}) {
               </li>
               <li>
                 <a
-                  href="mailto:info@entrevahub.com"
+                  href="mailto:info@entrevahub.org"
                   className="flex items-center gap-3 text-sm text-background/60 transition-colors hover:text-entreva-green"
                 >
                   <Mail className="h-4 w-4 shrink-0" />
-                  info@entrevahub.com
+                  info@entrevahub.org
                 </a>
               </li>
               <li>

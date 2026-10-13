@@ -296,7 +296,7 @@ export function JoinContent() {
                   <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-entreva-green/10 text-entreva-green">
                     <Mail className="h-5 w-5" />
                   </div>
-                  info@entrevahub.com
+                  info@entrevahub.org
                 </a>
                 <a
                   href="https://www.google.com/search?q=GN-0340-8096"
